@@ -1,0 +1,765 @@
+{
+  "_note": "CONTRACT between northgate-recovery (writes out/deck-numbers.json) and the deck builder (reads it). Values here are the expected ones; the system must compute them, never hard-code. Money: raw floats in USD plus a display string. Display rules: >= 1,000,000 -> '$1.33M' (2 dp); >= 1,000 -> '$462K' (0 dp, half-up); else '$950'. Negative uses a true minus sign U+2212. Percent display keeps the dp shown.",
+  "as_of": "2026-02-02",
+  "as_of_display": "Feb 2, 2026",
+  "data_through_display": "Dec 31, 2025",
+  "totals": {
+    "run_rate": {
+      "raw": 1330073,
+      "display": "$1.33M"
+    },
+    "one_time": {
+      "raw": 349629,
+      "display": "$350K"
+    },
+    "fy2026_run_rate_capture": {
+      "raw": 957595,
+      "display": "$958K"
+    },
+    "fy2026_total": {
+      "raw": 1307224,
+      "display": "$1.31M"
+    },
+    "build_cost": {
+      "raw": 120000,
+      "display": "$120K"
+    },
+    "run_cost_monthly": {
+      "raw": 1500,
+      "display": "$1.5K"
+    },
+    "fy2026_run_cost": {
+      "raw": 15000,
+      "display": "$15K"
+    },
+    "fy2026_net": {
+      "raw": 1172224,
+      "display": "$1.17M"
+    },
+    "payback_weeks": 5,
+    "one_time_covers_build": 2.9,
+    "upside": {
+      "raw": 1937318,
+      "display": "$1.94M"
+    },
+    "ebitda_fy2025": {
+      "raw": 3921446.46,
+      "display": "$3.92M"
+    },
+    "interest_fy2025": {
+      "raw": 2244000,
+      "display": "$2.24M"
+    },
+    "pretax_fy2025": {
+      "raw": -1232553.54,
+      "display": "−$1.23M"
+    },
+    "pretax_with_run_rate": {
+      "raw": 97519.46,
+      "display": "+$98K"
+    }
+  },
+  "findings": [
+    {
+      "id": "charge_capture",
+      "rank": 1,
+      "title": "Unbilled procedures",
+      "annual": {
+        "raw": 462474,
+        "display": "$462K"
+      },
+      "fy2026": {
+        "raw": 385395,
+        "display": "$385K"
+      },
+      "basis": "Measured",
+      "source": "procedures-monthly.csv · 96 rows"
+    },
+    {
+      "id": "denial_priority",
+      "rank": 2,
+      "title": "Denials worked by value, not arrival",
+      "annual": {
+        "raw": 346848,
+        "display": "$347K"
+      },
+      "fy2026": {
+        "raw": 260136,
+        "display": "$260K"
+      },
+      "basis": "Modeled",
+      "source": "claim-denials.csv · 10,126 rows"
+    },
+    {
+      "id": "rebates",
+      "rank": 3,
+      "title": "Supply rebates never claimed",
+      "annual": {
+        "raw": 165206,
+        "display": "$165K"
+      },
+      "fy2026": {
+        "raw": 88989,
+        "display": "$89K"
+      },
+      "basis": "Contractual",
+      "source": "purchase-orders.csv · 1,860 rows"
+    },
+    {
+      "id": "duplicate_plans",
+      "rank": 4,
+      "title": "Health plans the sellers never cancelled",
+      "annual": {
+        "raw": 158345,
+        "display": "$158K"
+      },
+      "fy2026": {
+        "raw": 118759,
+        "display": "$119K"
+      },
+      "basis": "Measured",
+      "source": "benefits-enrollment.csv · 18 rows"
+    },
+    {
+      "id": "ghost_spend",
+      "rank": 5,
+      "title": "Spend with no practice behind it",
+      "annual": {
+        "raw": 128099,
+        "display": "$128K"
+      },
+      "fy2026": {
+        "raw": 58249,
+        "display": "$58K"
+      },
+      "basis": "Measured",
+      "source": "ap-ledger.csv · 132 rows"
+    },
+    {
+      "id": "card_processing",
+      "rank": 6,
+      "title": "Card fees above a rate you already have",
+      "annual": {
+        "raw": 69101,
+        "display": "$69K"
+      },
+      "fy2026": {
+        "raw": 46067,
+        "display": "$46K"
+      },
+      "basis": "Measured",
+      "source": "payment-processing.csv · 264 rows"
+    }
+  ],
+  "charge_capture": {
+    "baseline_pct": 0.998,
+    "sites": [
+      {
+        "id": "NGD-19",
+        "name": "Warsaw",
+        "gap_pct": 6.06
+      },
+      {
+        "id": "NGD-18",
+        "name": "Auburn",
+        "gap_pct": 5.36
+      },
+      {
+        "id": "NGD-22",
+        "name": "Fishers",
+        "gap_pct": 5.24
+      },
+      {
+        "id": "NGD-17",
+        "name": "Fort Wayne",
+        "gap_pct": 4.61
+      },
+      {
+        "id": "NGD-20",
+        "name": "Indianapolis",
+        "gap_pct": 4.07
+      },
+      {
+        "id": "NGD-16",
+        "name": "Nicholasville",
+        "gap_pct": 3.52
+      },
+      {
+        "id": "NGD-21",
+        "name": "Carmel",
+        "gap_pct": 3.52
+      },
+      {
+        "id": "NGD-12",
+        "name": "Florence",
+        "gap_pct": 2.29
+      }
+    ],
+    "digital_site_range_pct": [
+      0.35,
+      1.85
+    ],
+    "excess_procedures": 2206,
+    "excess_production": {
+      "raw": 592915,
+      "display": "$593K"
+    },
+    "net_collection_pct": 78,
+    "quote": {
+      "text": "Nobody checks. There's no report that compares what got done to what got billed",
+      "who": "Tom Kirkbride, IT Manager",
+      "when": "May 20, 2025"
+    }
+  },
+  "denial_priority": {
+    "denials_total": 17089,
+    "claims_lost": 5033,
+    "lost_pct": 29.5,
+    "writeoffs_fifo": {
+      "raw": 1299672,
+      "display": "$1.30M"
+    },
+    "writeoffs_value_first": {
+      "raw": 854995,
+      "display": "$855K"
+    },
+    "billed_saved": {
+      "raw": 444677,
+      "display": "$445K"
+    },
+    "annual_net": {
+      "raw": 346848,
+      "display": "$347K"
+    },
+    "by_reason": [
+      {
+        "reason": "Missing clinical narrative",
+        "written_off": 296589.81
+      },
+      {
+        "reason": "Frequency limitation exceeded",
+        "written_off": 264746.83
+      },
+      {
+        "reason": "Non-covered benefit",
+        "written_off": 239620.03
+      },
+      {
+        "reason": "Incorrect tooth / surface code",
+        "written_off": 181427.17
+      },
+      {
+        "reason": "Coordination of benefits pending",
+        "written_off": 154979.12
+      },
+      {
+        "reason": "Pre-authorization not on file",
+        "written_off": 93542.89
+      },
+      {
+        "reason": "Eligibility not verified at service",
+        "written_off": 68766.03
+      }
+    ]
+  },
+  "duplicate_plans": {
+    "people": 18,
+    "annual": {
+      "raw": 158345,
+      "display": "$158K"
+    },
+    "sellers": [
+      {
+        "entity": "Riverbend Family Dental",
+        "acquired": 2021,
+        "people": 4,
+        "annual": 33560
+      },
+      {
+        "entity": "Clearfork Dental Group",
+        "acquired": 2022,
+        "people": 4,
+        "annual": 33688
+      },
+      {
+        "entity": "Wabash Dental Partners",
+        "acquired": 2024,
+        "people": 5,
+        "annual": 44920
+      },
+      {
+        "entity": "Stonebridge Dental",
+        "acquired": 2024,
+        "people": 5,
+        "annual": 46177
+      }
+    ],
+    "hr_named": [
+      "Wabash",
+      "Stonebridge"
+    ]
+  },
+  "rebates": {
+    "schein_2025": {
+      "raw": 1503335.21,
+      "display": "$1.50M"
+    },
+    "patterson_2025": {
+      "raw": 1500403.7,
+      "display": "$1.50M"
+    },
+    "combined_2025": {
+      "raw": 3003738.91,
+      "display": "$3.00M"
+    },
+    "schein_share_range_pct": [
+      49.5,
+      50.6
+    ],
+    "tiers": [
+      {
+        "from": 0,
+        "to": 1000000,
+        "rate": 0.0
+      },
+      {
+        "from": 1000000,
+        "to": 1750000,
+        "rate": 2.5
+      },
+      {
+        "from": 1750000,
+        "to": 2500000,
+        "rate": 4.0
+      },
+      {
+        "from": 2500000,
+        "to": null,
+        "rate": 5.5
+      }
+    ],
+    "current_rate_pct": 2.5,
+    "consolidated_rate_pct": 5.5,
+    "earned_at_split": {
+      "raw": 75093,
+      "display": "$75K"
+    },
+    "collected": {
+      "raw": 0,
+      "display": "$0"
+    },
+    "steady_state": {
+      "raw": 165206,
+      "display": "$165K"
+    },
+    "fy2026": {
+      "raw": 88989,
+      "display": "$89K"
+    },
+    "fy2026_rate_pct": 4.0,
+    "agreement_ends": "Oct 31, 2026"
+  },
+  "ghost_spend": {
+    "rows": [
+      {
+        "label": "NGD-23 · Grandview, Columbus",
+        "detail": "Dentrix, Weave, Spectrum, Vector Security, Cintas",
+        "annual": 34913
+      },
+      {
+        "label": "NGD-24 · Beavercreek",
+        "detail": "Dentrix, Weave, Spectrum, Vector Security, Cintas",
+        "annual": 34986
+      },
+      {
+        "label": "Halstead Creative · Dayton market retainer",
+        "detail": "Paid search, display retargeting, landing pages",
+        "annual": 58200
+      }
+    ],
+    "total": {
+      "raw": 128099,
+      "display": "$128K"
+    },
+    "evidence_note": "Vector Security's September invoice for Beavercreek reports no open/close activity and says the premises may be unoccupied."
+  },
+  "card_processing": {
+    "processors": [
+      {
+        "name": "Sunbit",
+        "sites": 5,
+        "volume": 3387456.14,
+        "rate_pct": 2.422
+      },
+      {
+        "name": "BluePay",
+        "sites": 11,
+        "volume": 6813622.99,
+        "rate_pct": 2.913
+      },
+      {
+        "name": "CardConnect",
+        "sites": 6,
+        "volume": 3711023.17,
+        "rate_pct": 3.384
+      }
+    ],
+    "savings": {
+      "raw": 69101,
+      "display": "$69K"
+    },
+    "sunbit_fee_sites": 22,
+    "sunbit_processing_sites": 5
+  },
+  "clocks": {
+    "total": {
+      "raw": 349629,
+      "display": "$350K"
+    },
+    "items": [
+      {
+        "id": "hs_q4",
+        "label": "File the Schein Q4-2025 rebate claim",
+        "amount": {
+          "raw": 10148,
+          "display": "$10K"
+        },
+        "start": "2026-02-14",
+        "end": "2026-02-14",
+        "days_left": 12
+      },
+      {
+        "id": "patterson_fy25",
+        "label": "File the Patterson 2025 rebate claim",
+        "amount": {
+          "raw": 12510,
+          "display": "$12.5K"
+        },
+        "amount_high": {
+          "raw": 37510,
+          "display": "$37.5K"
+        },
+        "start": "2026-03-01",
+        "end": "2026-03-01",
+        "days_left": 27
+      },
+      {
+        "id": "credential_hold",
+        "label": "Rebill Dr. Osei's 786 held Delta claims",
+        "amount": {
+          "raw": 165040,
+          "display": "$165K"
+        },
+        "start": "2026-03-14",
+        "end": "2026-08-21",
+        "days_left": 40
+      },
+      {
+        "id": "backlog",
+        "label": "Bill procedures still inside filing limits",
+        "amount": {
+          "raw": 161931,
+          "display": "$162K"
+        },
+        "start": "2026-02-02",
+        "end": "2026-06-29",
+        "decay_per_day": 1113
+      }
+    ]
+  },
+  "people": {
+    "rcm": [
+      {
+        "name": "Marguerite Vance",
+        "title": "Senior AR Specialist",
+        "claims": 432,
+        "recovered": 291155.93,
+        "per_claim": 673.97,
+        "onsite_hrs_mo": 80.8
+      },
+      {
+        "name": "Neve Pemberton",
+        "title": "Billing Entry Clerk",
+        "claims": 1758,
+        "recovered": 188976.93,
+        "per_claim": 107.5,
+        "onsite_hrs_mo": 133.3
+      },
+      {
+        "name": "Josie Thorne",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1649,
+        "recovered": 180348.79,
+        "per_claim": 109.37,
+        "onsite_hrs_mo": 138.7
+      },
+      {
+        "name": "Priya Rutherford",
+        "title": "Billing Entry Clerk",
+        "claims": 1748,
+        "recovered": 179314.75,
+        "per_claim": 102.58,
+        "onsite_hrs_mo": 137.5
+      },
+      {
+        "name": "Marlow Blackwood",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1705,
+        "recovered": 167027.88,
+        "per_claim": 97.96,
+        "onsite_hrs_mo": 135.0
+      },
+      {
+        "name": "Ansel Mbeki",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1640,
+        "recovered": 165349.45,
+        "per_claim": 100.82,
+        "onsite_hrs_mo": 136.1
+      },
+      {
+        "name": "Leon Kowalczyk",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1596,
+        "recovered": 164677.66,
+        "per_claim": 103.18,
+        "onsite_hrs_mo": 134.9
+      },
+      {
+        "name": "Rafael Marchbanks",
+        "title": "Billing Entry Clerk",
+        "claims": 1632,
+        "recovered": 154800.76,
+        "per_claim": 94.85,
+        "onsite_hrs_mo": 136.4
+      },
+      {
+        "name": "Paloma Northrup",
+        "title": "Billing Entry Clerk",
+        "claims": 1578,
+        "recovered": 153577.02,
+        "per_claim": 97.32,
+        "onsite_hrs_mo": 135.9
+      },
+      {
+        "name": "Thandiwe Amadi",
+        "title": "Billing Entry Clerk",
+        "claims": 1605,
+        "recovered": 149962.34,
+        "per_claim": 93.43,
+        "onsite_hrs_mo": 142.0
+      },
+      {
+        "name": "Elke Ellsworth",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1503,
+        "recovered": 149950.39,
+        "per_claim": 99.77,
+        "onsite_hrs_mo": 134.3
+      },
+      {
+        "name": "Linus Ferreira",
+        "title": "Revenue Cycle Specialist",
+        "claims": 1473,
+        "recovered": 146659.31,
+        "per_claim": 99.57,
+        "onsite_hrs_mo": 131.2
+      },
+      {
+        "name": "Delphine Marchbanks",
+        "title": "Denial Queue Specialist",
+        "claims": 2578,
+        "recovered": 85735.49,
+        "per_claim": 33.26,
+        "onsite_hrs_mo": 179.3
+      },
+      {
+        "name": "Odessa Yerkes",
+        "title": "Denial Queue Specialist",
+        "claims": 2487,
+        "recovered": 84370.81,
+        "per_claim": 33.92,
+        "onsite_hrs_mo": 176.3
+      }
+    ],
+    "marguerite": {
+      "recovered": {
+        "raw": 291155.93,
+        "display": "$291K"
+      },
+      "per_claim": 674,
+      "claims": 432,
+      "onsite_hrs_mo": 80.8,
+      "hired": 1994,
+      "fulltime_staff": 171
+    },
+    "team_median_per_claim": 100,
+    "queue_per_claim": [
+      33,
+      34
+    ],
+    "clerks": 5,
+    "eligibility_staff": 7,
+    "eligibility_minutes_per_patient": 11
+  },
+  "plan": {
+    "modules": [
+      {
+        "n": 0,
+        "name": "Clocks",
+        "what": "File both rebate claims, rebill the held Delta claims, cancel NGD-23/24 services, give Halstead notice, end the legacy plans, move supply orders to Schein",
+        "start": "2026-02-02",
+        "end": "2026-02-27",
+        "live": null,
+        "software": false
+      },
+      {
+        "n": 1,
+        "name": "Charge-capture reconciliation",
+        "what": "Daily match of procedures done vs billed at every site, with each gap's filing deadline",
+        "start": "2026-02-02",
+        "end": "2026-03-01",
+        "live": "2026-03-02",
+        "unlocks": [
+          "charge_capture",
+          "backlog"
+        ]
+      },
+      {
+        "n": 2,
+        "name": "Ranked denial queue + credentialing tracker",
+        "what": "Sort denials by dollars and days left; flag recredentialing 90 days out",
+        "start": "2026-02-16",
+        "end": "2026-03-20",
+        "live": "2026-03-23",
+        "unlocks": [
+          "denial_priority",
+          "credential_hold"
+        ]
+      },
+      {
+        "n": 3,
+        "name": "Spend watchdog",
+        "what": "Unknown cost centers, rebate filing calendar, processor rate check, carrier invoices vs HR roster",
+        "start": "2026-03-02",
+        "end": "2026-04-03",
+        "live": "2026-04-06",
+        "unlocks": [
+          "duplicate_plans",
+          "rebates",
+          "ghost_spend",
+          "card_processing"
+        ]
+      },
+      {
+        "n": 4,
+        "name": "Waitlist pilot + eligibility checks",
+        "what": "3 sites for 60 days; measure fill rate before counting any of it",
+        "start": "2026-03-23",
+        "end": "2026-05-29",
+        "live": null,
+        "unlocks": [
+          "backfill"
+        ]
+      }
+    ],
+    "engineers": 2,
+    "weeks": 10
+  },
+  "backfill": {
+    "openings": 17099,
+    "fill_pct": 40,
+    "per_visit": 504,
+    "collection_pct": 78,
+    "margin_pct": 72,
+    "production": {
+      "raw": 3449640,
+      "display": "$3.45M"
+    },
+    "contribution": {
+      "raw": 1937318,
+      "display": "$1.94M"
+    },
+    "recent_rate_pct": 21.7,
+    "legacy_rate_pct": 10.1
+  },
+  "not_proposing": [
+    {
+      "item": "Leaving the Dublin Road headquarters",
+      "reason": "$1.18M a year, but the lease runs to 2032 with no exit right, and the landlord refused sublease consent to two other tenants."
+    },
+    {
+      "item": "Cutting revenue-cycle staff",
+      "reason": "Write-offs are already $1.30M a year. Fewer people means more claims timing out."
+    },
+    {
+      "item": "Cutting Marguerite Vance",
+      "reason": "She recovers more than anyone on the team."
+    },
+    {
+      "item": "One practice-management system for the 8 sites",
+      "reason": "$144K to $240K and 6 to 10 weeks a site. Reconciliation recovers the money without it."
+    },
+    {
+      "item": "Imaging consolidation",
+      "reason": "Sensors are vendor-specific: $22K to $40K per operatory."
+    },
+    {
+      "item": "Corporate software cuts",
+      "reason": "Under contract through Dec 2026. 47 unused seats ($41K) come out at renewal."
+    },
+    {
+      "item": "Supply cost at Cincinnati and Fort Wayne",
+      "reason": "It is implants and grafting, not waste."
+    },
+    {
+      "item": "Grantley's 8–15% supply savings",
+      "reason": "No item prices in the data. We can't defend it."
+    },
+    {
+      "item": "Consolidating patient-communication tools",
+      "reason": "Tried in Q1 2025. It failed on write-back to two systems."
+    },
+    {
+      "item": "Dropping coverage for 17 people under 30 hours",
+      "reason": "$155K a year, but that is a retention decision, not a saving."
+    }
+  ],
+  "method": {
+    "packet_words": 259000,
+    "documents": 252,
+    "signal_documents": 27,
+    "utterances": 15639,
+    "corpus_words": 182467,
+    "rare_words": 1942,
+    "reduction_pct": 98.9,
+    "data_rows": 24000
+  },
+  "docs_vs_data": [
+    {
+      "who": "Josh Pemberton, Mar 2025",
+      "claim": "“We consolidated everything to Henry Schein last year.”",
+      "data": "Purchases split 50/50 between the two distributors every month."
+    },
+    {
+      "who": "Dee Fontaine, Aug 2025",
+      "claim": "Wabash and Stonebridge plans were never terminated.",
+      "data": "Four sellers did not cancel, including Riverbend (2021) and Clearfork (2022)."
+    },
+    {
+      "who": "Appendix",
+      "claim": "The 8 routing-slip sites are 2024-and-later acquisitions.",
+      "data": "Florence (2022) and Nicholasville (2023) are two of them."
+    },
+    {
+      "who": "Tom Kirkbride, May 2025",
+      "claim": "“Fourteen are already on the same platform.”",
+      "data": "Those 14 run four different systems. The difference is the billing handoff."
+    },
+    {
+      "who": "FY2025 P&L",
+      "claim": "Corporate payroll of $3.30M.",
+      "data": "Understated by $23.5K: the senior AR specialist is paid $71.4K, not $52K."
+    }
+  ]
+}

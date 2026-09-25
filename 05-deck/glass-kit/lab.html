@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glass lab</title>
+<!--
+  Technique comparison, rendered by:  python3 render.py lab.html --out renders/lab --bake marked
+  Slides 1-4 are slide A with four ways of making the glass; slide 5 tests print primitives.
+    1 (a) CSS backdrop-filter on a layer behind the text
+    2 (b) cloned field + CSS filter: blur() saturate(), clipped by overflow:hidden (the common recipe)
+    3 (c) cloned field + SVG filter (frost + lens rim), the kit's engine, printed live
+    4 (d) the same as 3, baked: 2x plate as the page background, live text on top (data-bake)
+-->
+<link rel="stylesheet" href="glass.css">
+<style>
+  .eyebrow { position: absolute; left: var(--margin-x); top: var(--margin-top); }
+  .foot { position: absolute; left: var(--margin-x); bottom: var(--margin-bottom); }
+  .page-pill { right: var(--margin-x); bottom: calc(var(--margin-bottom) - 10px); }
+  .page-pill .of { color: var(--ink-2); }
+  .hero { position: absolute; left: calc(var(--margin-x) - 10px); top: 222px; }
+  .hero-line { position: absolute; left: var(--margin-x); top: 548px; }
+  .proof { left: var(--margin-x); top: 708px; height: 120px; padding: 0 48px; display: flex; align-items: center; white-space: nowrap; }
+  .proof .soft { color: var(--ink-2); }
+
+  /* (a) backdrop-filter */
+  .lab-a .glass__backdrop { clip-path: none; -webkit-backdrop-filter: blur(24px) saturate(1.5); backdrop-filter: blur(24px) saturate(1.5); background: rgba(255, 255, 255, .56); }
+  /* (b) the common recipe: blurred clone, glass clips with overflow:hidden */
+  .lab-b .glass { overflow: hidden; }
+  .lab-b .glass__backdrop.clone { clip-path: none; inset: -80px; filter: blur(24px) saturate(1.5); }
+  .lab-b .glass__backdrop.clone > .field { transform: translate(calc(80px - var(--gx)), calc(80px - var(--gy))); }
+  .lab-b .glass__backdrop.tint { background: rgba(255, 255, 255, .56); }
+
+  /* 5 · print primitives */
+  .prim { position: absolute; width: 380px; height: 200px; border-radius: 28px; padding: 24px 28px; font: 500 22px/30px var(--font-text); color: var(--ink); }
+  .stripes { position: absolute; left: 120px; top: 600px; width: 1680px; height: 340px; background: repeating-linear-gradient(90deg, var(--data-blue) 0 28px, var(--cream) 28px 56px); }
+  .p-mask { background: rgba(90, 134, 216, .22); }
+  .p-mask::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px;
+    background: linear-gradient(160deg, #fff, rgba(255, 255, 255, .2) 45%, rgba(255, 255, 255, .7));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .p-inset { background: rgba(90, 134, 216, .22); box-shadow: inset 0 2px 0 #fff, inset 0 -2px 0 rgba(24, 32, 46, .25); }
+  .p-glow { background: rgba(255, 255, 255, .45); box-shadow: inset 0 0 30px rgba(90, 134, 216, .55); }
+  .p-shadow { background: #fff; box-shadow: 0 30px 60px -10px rgba(24, 32, 46, .30); }
+  .p-bd { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); background: rgba(255, 255, 255, .35); }
+  .p-drop { filter: drop-shadow(0 8px 12px rgba(24, 32, 46, .35)); background: #fff; }
+  .p-blend { background: var(--data-blue); mix-blend-mode: soft-light; }
+  .p-maskimg { background: var(--data-blue); -webkit-mask-image: linear-gradient(90deg, #000, transparent); mask-image: linear-gradient(90deg, #000, transparent); }
+  .p-svg { padding: 0; }
+</style>
+</head>
+<body>
+
+<section class="slide lab-a">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">a</span><span class="sep">·</span>backdrop-filter: blur() saturate() behind the text</div>
+  <h1 class="hero t-hero"><span class="cur">$</span>462K</h1>
+  <p class="hero-line t-lede">a year billed for work already done</p>
+  <div class="glass proof" data-glass="manual" data-lab="a"><p class="t-body"><b>2.3–6.1%</b> of procedures never reach a claim at <b>8 sites</b>, <span class="soft">vs <b>1.0%</b> everywhere else</span></p></div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label" data-glass="manual" data-lab="a"><span>03 <span class="of">/ 15</span></span></div>
+</section>
+
+<section class="slide lab-b">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">b</span><span class="sep">·</span>cloned field + CSS filter, clipped by overflow:hidden</div>
+  <h1 class="hero t-hero"><span class="cur">$</span>462K</h1>
+  <p class="hero-line t-lede">a year billed for work already done</p>
+  <div class="glass proof" data-glass="manual" data-lab="b"><p class="t-body"><b>2.3–6.1%</b> of procedures never reach a claim at <b>8 sites</b>, <span class="soft">vs <b>1.0%</b> everywhere else</span></p></div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label" data-glass="manual" data-lab="b"><span>03 <span class="of">/ 15</span></span></div>
+</section>
+
+<section class="slide">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">c</span><span class="sep">·</span>cloned field + SVG filter (frost, lens rim), printed live</div>
+  <h1 class="hero t-hero"><span class="cur">$</span>462K</h1>
+  <p class="hero-line t-lede">a year billed for work already done</p>
+  <div class="glass proof"><p class="t-body"><b>2.3–6.1%</b> of procedures never reach a claim at <b>8 sites</b>, <span class="soft">vs <b>1.0%</b> everywhere else</span></p></div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label"><span>03 <span class="of">/ 15</span></span></div>
+</section>
+
+<section class="slide" data-bake>
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">d</span><span class="sep">·</span>c, baked: 2x plate behind live text</div>
+  <h1 class="hero t-hero"><span class="cur">$</span>462K</h1>
+  <p class="hero-line t-lede">a year billed for work already done</p>
+  <div class="glass proof"><p class="t-body"><b>2.3–6.1%</b> of procedures never reach a claim at <b>8 sites</b>, <span class="soft">vs <b>1.0%</b> everywhere else</span></p></div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label"><span>03 <span class="of">/ 15</span></span></div>
+</section>
+
+<section class="slide">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">5</span><span class="sep">·</span>print primitives</div>
+  <div class="stripes"></div>
+  <div class="prim p-mask"   style="left:120px;  top:200px">gradient border via mask-composite</div>
+  <div class="prim p-inset"  style="left:540px;  top:200px">inset shadow rim, no blur</div>
+  <div class="prim p-glow"   style="left:960px;  top:200px">inset blurred glow</div>
+  <div class="prim p-shadow" style="left:1380px; top:200px">outer blurred shadow</div>
+  <svg class="prim p-svg" style="left:120px; top:680px" width="380" height="200"><defs><linearGradient id="rimg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity=".2"/></linearGradient></defs>
+    <rect x=".75" y=".75" width="378.5" height="198.5" rx="27.25" fill="rgba(255,255,255,.55)" stroke="url(#rimg)" stroke-width="1.5"/><text x="28" y="48" style="font: 500 22px var(--font-text); fill: var(--ink)">SVG gradient-stroke rim</text></svg>
+  <div class="prim p-bd"      style="left:540px;  top:680px">backdrop-filter, text inside</div>
+  <div class="prim p-drop"    style="left:960px;  top:680px">filter: drop-shadow, text inside</div>
+  <div class="prim p-maskimg" style="left:1380px; top:680px">mask-image fade</div>
+  <div class="prim p-blend"   style="left:1380px; top:420px; height: 140px">mix-blend-mode: soft-light</div>
+</section>
+
+<script src="glass.js"></script>
+<script>
+  // manual materials for (a) and (b), added through the kit's after-enhance hook
+  window.glassKitAfter = () => {
+    document.querySelectorAll('[data-lab]').forEach(g => {
+      const slide = g.closest('.slide'), field = slide.querySelector(':scope > .field');
+      const sr = slide.getBoundingClientRect(), gr = g.getBoundingClientRect();
+      g.style.setProperty('--gx', (gr.left - sr.left) + 'px');
+      g.style.setProperty('--gy', (gr.top - sr.top) + 'px');
+      if (g.dataset.lab === 'a') {
+        g.insertAdjacentHTML('afterbegin', '<div class="glass__backdrop"></div>');
+      } else {
+        const clone = document.createElement('div');
+        clone.className = 'glass__backdrop clone';
+        clone.appendChild(field.cloneNode(true));
+        g.prepend(clone);
+        clone.insertAdjacentHTML('afterend', '<div class="glass__backdrop tint"></div>');
+      }
+    });
+  };
+</script>
+</body>
+</html>

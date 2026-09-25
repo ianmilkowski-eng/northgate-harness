@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Glass kit test</title>
+<link rel="stylesheet" href="glass.css">
+<style>
+  /* slide-level layout (everything else lives in glass.css) */
+  .eyebrow { position: absolute; left: var(--margin-x); top: var(--margin-top); }
+  .foot { position: absolute; left: var(--margin-x); bottom: var(--margin-bottom); }
+  .page-pill { right: var(--margin-x); bottom: calc(var(--margin-bottom) - 10px); }
+  .page-pill .of { color: var(--ink-2); }
+
+  /* A · hero number */
+  .hero { position: absolute; left: calc(var(--margin-x) - 10px); top: 222px; }
+  .hero-line { position: absolute; left: var(--margin-x); top: 548px; }
+  .proof { left: var(--margin-x); top: 708px; height: 120px; padding: 0 48px; display: flex; align-items: center; white-space: nowrap; }
+  .proof .t-body { color: var(--ink); }
+  .proof .soft { color: var(--ink-2); }
+
+  /* B · chart in glass */
+  .title-block { position: absolute; left: var(--margin-x); top: 160px; }
+  .title-block .t-sub { margin-top: 12px; }
+  .chart-panel { left: var(--margin-x); top: 324px; width: 1680px; height: 584px; padding: 44px 56px; }
+  .chart { display: block; overflow: visible; }
+  .chart text { font-family: var(--font-text); font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; dominant-baseline: central; }
+  .chart__site { font-size: 24px; font-weight: 500; fill: var(--ink); text-anchor: end; }
+  .chart__value { font-family: var(--font-display); font-size: 24px; font-weight: 600; fill: var(--ink); }
+  .chart__bar { fill: var(--data-blue); }
+  .chart__zero { stroke: var(--hairline); stroke-width: 1; }
+  .chart__base { stroke: var(--data-violet); stroke-width: 2; }
+  .chart__base-label { font-size: 20px; }
+  .chart__base-name { font-weight: 500; fill: var(--ink-2); }
+  .chart__base-value { font-family: var(--font-display); font-weight: 600; fill: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- Slide A · hero number -->
+<section class="slide" id="slide-a">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">01</span><span class="sep">·</span>Unbilled procedures</div>
+  <h1 class="hero t-hero"><span class="cur">$</span>462K</h1>
+  <p class="hero-line t-lede">a year billed for work already done</p>
+  <div class="glass proof">
+    <p class="t-body"><b>2.3–6.1%</b> of procedures never reach a claim at <b>8 sites</b>, <span class="soft">vs <b>1.0%</b> everywhere else</span></p>
+  </div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label"><span>03 <span class="of">/ 15</span></span></div>
+</section>
+
+<!-- Slide B · chart in glass -->
+<section class="slide" id="slide-b">
+  <div class="field"></div>
+  <div class="eyebrow t-eyebrow"><span class="n">01</span><span class="sep">·</span>Unbilled procedures</div>
+  <div class="title-block">
+    <h2 class="t-title">Eight sites leave 2–6× more work unbilled</h2>
+    <p class="t-sub">Share of procedures that never reach a claim, by site, %</p>
+  </div>
+  <div class="glass chart-panel">
+        <svg class="chart" width="1568" height="496" viewBox="0 0 1568 496" role="img" aria-label="Unbilled share of procedures by site, percent, versus a 1.0% baseline across the other 14 sites">
+          <line class="chart__zero" x1="231.5" y1="42" x2="231.5" y2="496"/>
+          <line class="chart__base" x1="432.0" y1="42" x2="432.0" y2="496"/>
+          <text class="chart__base-label" x="446.0" y="22.0"><tspan class="chart__base-name">14-site baseline</tspan><tspan class="chart__base-value" dx="10">1.0%</tspan></text>
+          <g class="chart__row"><title>Warsaw: 6.06%</title>
+            <text class="chart__site" x="208" y="76.0">Warsaw</text>
+            <path class="chart__bar" d="M232 64.0H1440.00A4 4 0 0 1 1444.00 68.0V84.0A4 4 0 0 1 1440.00 88.0H232Z"/>
+            <text class="chart__value" x="1460.0" y="76.0">6.06%</text></g>
+          <g class="chart__row"><title>Auburn: 5.36%</title>
+            <text class="chart__site" x="208" y="132.0">Auburn</text>
+            <path class="chart__bar" d="M232 120.0H1300.00A4 4 0 0 1 1304.00 124.0V140.0A4 4 0 0 1 1300.00 144.0H232Z"/>
+            <text class="chart__value" x="1320.0" y="132.0">5.36%</text></g>
+          <g class="chart__row"><title>Fishers: 5.24%</title>
+            <text class="chart__site" x="208" y="188.0">Fishers</text>
+            <path class="chart__bar" d="M232 176.0H1276.00A4 4 0 0 1 1280.00 180.0V196.0A4 4 0 0 1 1276.00 200.0H232Z"/>
+            <text class="chart__value" x="1296.0" y="188.0">5.24%</text></g>
+          <g class="chart__row"><title>Fort Wayne: 4.61%</title>
+            <text class="chart__site" x="208" y="244.0">Fort Wayne</text>
+            <path class="chart__bar" d="M232 232.0H1150.00A4 4 0 0 1 1154.00 236.0V252.0A4 4 0 0 1 1150.00 256.0H232Z"/>
+            <text class="chart__value" x="1170.0" y="244.0">4.61%</text></g>
+          <g class="chart__row"><title>Indianapolis: 4.07%</title>
+            <text class="chart__site" x="208" y="300.0">Indianapolis</text>
+            <path class="chart__bar" d="M232 288.0H1042.00A4 4 0 0 1 1046.00 292.0V308.0A4 4 0 0 1 1042.00 312.0H232Z"/>
+            <text class="chart__value" x="1062.0" y="300.0">4.07%</text></g>
+          <g class="chart__row"><title>Nicholasville: 3.52%</title>
+            <text class="chart__site" x="208" y="356.0">Nicholasville</text>
+            <path class="chart__bar" d="M232 344.0H932.00A4 4 0 0 1 936.00 348.0V364.0A4 4 0 0 1 932.00 368.0H232Z"/>
+            <text class="chart__value" x="952.0" y="356.0">3.52%</text></g>
+          <g class="chart__row"><title>Carmel: 3.52%</title>
+            <text class="chart__site" x="208" y="412.0">Carmel</text>
+            <path class="chart__bar" d="M232 400.0H932.00A4 4 0 0 1 936.00 404.0V420.0A4 4 0 0 1 932.00 424.0H232Z"/>
+            <text class="chart__value" x="952.0" y="412.0">3.52%</text></g>
+          <g class="chart__row"><title>Florence: 2.29%</title>
+            <text class="chart__site" x="208" y="468.0">Florence</text>
+            <path class="chart__bar" d="M232 456.0H686.00A4 4 0 0 1 690.00 460.0V476.0A4 4 0 0 1 686.00 480.0H232Z"/>
+            <text class="chart__value" x="706.0" y="468.0">2.29%</text></g>
+        </svg>
+  </div>
+  <p class="foot t-caption">Source: procedures-monthly.csv · 96 rows</p>
+  <div class="glass glass--pill page-pill t-label"><span>04 <span class="of">/ 15</span></span></div>
+</section>
+
+<script src="glass.js"></script>
+</body>
+</html>

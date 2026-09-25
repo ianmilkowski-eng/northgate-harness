@@ -1,0 +1,207 @@
+/* ==========================================================================
+   Glass kit · 1920×1080 HTML slides that survive Chromium PDF export
+   tokens · field · glass · type scale
+   Pair with glass.js (builds the grid, the glass backdrops and their filters).
+   ========================================================================== */
+
+/* 1. Fonts ------------------------------------------------------------------
+   Inter + Inter Tight (Fontsource file names). A page may declare the same
+   family names again after this file (build.py does, from fonts-inter/); the
+   later declaration wins. Until real files exist the stack falls back to
+   "Kit Stand-in" (Instrument Sans, OFL) so renders stay offline.           */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: block; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: block; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: block; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 500; font-display: block; src: url("fonts/inter-tight-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 600; font-display: block; src: url("fonts/inter-tight-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Kit Stand-in"; font-weight: 400; font-display: block; src: url("fonts/InstrumentSans-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Kit Stand-in"; font-weight: 500; font-display: block; src: url("fonts/InstrumentSans-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Kit Stand-in"; font-weight: 600; font-display: block; src: url("fonts/InstrumentSans-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "Kit Stand-in"; font-weight: 700; font-display: block; src: url("fonts/InstrumentSans-Bold.ttf") format("truetype"); }
+
+/* 2. Tokens ----------------------------------------------------------------- */
+:root {
+  /* field */
+  --field: #EEF3F9;
+  --cream: #F7F4EE;
+  --wash-blue: #CFE3F7;
+  --wash-lavender: #E4DCF8;
+  --grid-minor: .50;          /* opacity of the minor hairlines next to glass (stroke = --hairline, multiplied) */
+  --grid-major: 1;            /* opacity of the major hairlines next to glass */
+  --grid-open: .36;           /* the grid's strength in open areas, relative to next to glass */
+
+  /* ink + data */
+  --ink: #18202E;
+  --ink-2: #5B6475;           /* secondary */
+  --ink-3: #8A93A3;           /* muted: source lines */
+  --hairline: #D9E2EE;
+  --accent: #B9A8F0;          /* one highlighted mark per slide at most; never text (1.9:1 on the field) */
+  --data-blue: #5A86D8;
+  --data-blue-deep: #3F6FCB;  /* the one emphasised mark */
+  --data-violet: #9A86E0;     /* reference rules only: not separable from data blue under CVD (dE 2.4) */
+
+  /* glass (the numeric ones are read by glass.js; any can be overridden per panel) */
+  --glass-radius: 32px;
+  --glass-frost: 22;          /* backdrop blur, px (stdDeviation) */
+  --glass-saturate: 1.65;     /* saturation lift of what is behind */
+  --glass-tint: .36;          /* white over the frosted body (0-1) */
+  --glass-rim-tint: .05;      /* white over the refracting rim band (0-1) */
+  --glass-rim: 60;            /* width of the refracting rim band, px (capped at 42% of the short side) */
+  --glass-lens: 60;           /* max displacement at the very edge, px */
+  --glass-rim-shade: .07;     /* the rim band is this much darker at the edge: thickness */
+  --glass-rim-blur: .6;       /* softness of what the rim refracts, px */
+  --glass-rim-curve: 1.3;     /* rim visibility falloff (higher = hugs the edge) */
+  --glass-dispersion: .07;    /* chromatic split in the rim: R and B displaced ±7% */
+  --glass-specular: 1;        /* strength of the rim highlight (1 = default) */
+  --glass-shadow:
+    0 1px 2px rgba(40, 70, 120, .07),
+    0 18px 36px -16px rgba(40, 70, 120, .12),
+    0 56px 110px -36px rgba(40, 70, 120, .14);
+
+  /* type */
+  --font-display: "Inter Tight", "Kit Stand-in", system-ui, sans-serif;
+  --font-text: "Inter", "Kit Stand-in", system-ui, sans-serif;
+
+  /* layout: 40px engineering grid, a major line every 3 cells (120px, the side margins) */
+  --unit: 40px;
+  --grid-major-every: 3;
+  --margin-x: 120px;
+  --margin-top: 96px;
+  --margin-bottom: 84px;
+  --slack: 0em;
+}
+
+/* 3. Page + slide ----------------------------------------------------------- */
+@page { size: 1920px 1080px; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; letter-spacing: calc(var(--ls, 0em) + var(--slack, 0em)); }
+/* tracking is set per element through --ls (em, resolved at each element's own size). --slack adds to all of it:
+   build.py sets --slack: .04em (about 8% wider text) in a test pass to prove every line has room for Inter. */
+html, body { margin: 0; padding: 0; background: var(--field); }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: var(--font-text);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+.slide {
+  position: relative;
+  width: 1920px; height: 1080px;
+  overflow: hidden;
+  break-after: page; page-break-after: always;
+  isolation: isolate;
+}
+.slide:last-of-type { break-after: auto; page-break-after: auto; }
+
+/* 4. Field ------------------------------------------------------------------
+   Studio light, not blobs. Two long, soft light bands (lavender above, light
+   blue below) cross the whole slide, rising gently to the right, so they pass
+   behind wherever the glass sits and give it colour to refract. A warm cream
+   key light sits in the upper-left corner. The engineering grid lies between
+   the bands and the key light; glass.js makes it quieter in open areas and
+   leaves it fully present around the glass, where the lens bends it.       */
+.field {
+  position: absolute; left: 0; top: 0; width: 1920px; height: 1080px;
+  z-index: 0; isolation: isolate; overflow: hidden;
+  background-color: var(--field);
+}
+.field::before {
+  content: ""; position: absolute; left: -20%; top: -40%; width: 140%; height: 180%;
+  transform: rotate(-8deg);
+  background:
+    radial-gradient(64% 8.6% at 56% 57%, color-mix(in srgb, var(--wash-blue) 94%, transparent) 0%, color-mix(in srgb, var(--wash-blue) 60%, transparent) 40%, color-mix(in srgb, var(--wash-blue) 18%, transparent) 72%, transparent 100%),
+    radial-gradient(54% 6.4% at 44% 43%, color-mix(in srgb, var(--wash-lavender) 90%, transparent) 0%, color-mix(in srgb, var(--wash-lavender) 52%, transparent) 42%, color-mix(in srgb, var(--wash-lavender) 14%, transparent) 74%, transparent 100%);
+}
+.field__grid { position: absolute; left: 0; top: 0; mix-blend-mode: multiply; }   /* ink on paper: reads on every band */
+.field__light {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(58% 78% at -4% -8%, var(--cream) 0%, color-mix(in srgb, var(--cream) 84%, transparent) 24%, color-mix(in srgb, var(--cream) 34%, transparent) 50%, transparent 72%);
+}
+
+/* 5. Glass --------------------------------------------------------------------
+   Markup: <div class="glass"> …content… </div>. glass.js inserts, behind the
+   content: .glass__backdrop (a clone of the slide's field run through an SVG
+   filter: frost + saturation + a light white tint, and a refracting rim band
+   with a faint chromatic split) and .glass__rim (vector specular: a crisp top
+   rim fading down the sides, a faint darker lower rim). CSS adds the broad
+   sheen over the top third (::before), the inner thickness (::after) and the
+   blue-tinted shadow. Nothing that carries a filter ever contains text, so
+   text stays live, vector and selectable in the PDF.                        */
+.glass {
+  position: absolute;
+  border-radius: var(--glass-radius);
+  box-shadow: var(--glass-shadow);
+  isolation: isolate;
+  z-index: 1;
+}
+.glass__backdrop {
+  position: absolute; inset: 0; z-index: -4;
+  border-radius: inherit;
+  clip-path: inset(0 round var(--glass-radius));   /* clip-path, not overflow: the print path honours it */
+  pointer-events: none;
+}
+.glass__backdrop > .field { transform: translate(calc(-1 * var(--gx)), calc(-1 * var(--gy))); }
+.glass::before {                                    /* broad soft sheen across the top third */
+  content: ""; position: absolute; inset: 0; z-index: -3; border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(150% 66% at 50% -22%, rgba(255, 255, 255, .58) 0%, rgba(255, 255, 255, .24) 46%, rgba(255, 255, 255, 0) 76%);
+}
+.glass::after {                                     /* thickness: light caught inside the top edge, cool shade inside the bottom */
+  content: ""; position: absolute; inset: 0; z-index: -2; border-radius: inherit; pointer-events: none;
+  box-shadow:
+    inset 0 16px 26px -22px rgba(255, 255, 255, .95),
+    inset 0 -16px 30px -24px rgba(40, 70, 120, .20);
+}
+.glass__rim { position: absolute; left: 0; top: 0; z-index: -1; pointer-events: none; overflow: visible; }
+
+.glass--pill { --glass-radius: 22px; height: 44px; padding: 0 18px; display: inline-flex; align-items: center; }
+.glass--capsule { --glass-radius: 20px; }
+
+/* 6. Type scale (px at 1920) ---------------------------------------------------
+   eyebrow 22 · title 64 · hero 208 · hero line 40 · body 26 · labels 20 · source 18 */
+.t-eyebrow { font: 500 22px/28px var(--font-text); --ls: 0em; color: var(--ink-2); }
+.t-eyebrow .n { color: var(--ink); }
+.t-eyebrow .sep { padding: 0 .4em; }
+.t-hero {
+  font: 600 208px/1 var(--font-display);
+  --ls: -.042em;
+  font-variant-numeric: proportional-nums; font-feature-settings: "tnum" 0;   /* display figures: proportional */
+  color: var(--ink);
+  margin: 0;
+}
+.t-hero .cur { margin-right: .03em; }
+.t-cover { font: 600 112px/1.02 var(--font-display); --ls: -.04em; color: var(--ink); margin: 0; }
+.t-title { font: 600 64px/72px var(--font-display); --ls: -.028em; color: var(--ink); margin: 0; }
+.t-heroline, .t-lede { font: 400 40px/50px var(--font-text); --ls: -.012em; color: var(--ink-2); margin: 0; }
+.t-body { font: 400 26px/36px var(--font-text); --ls: -.008em; color: var(--ink); margin: 0; }
+.t-body b, .t-num { font-family: var(--font-display); font-weight: 600; --ls: -.015em; }   /* figures: Inter Tight 600 */
+.t-callout { font: 500 26px/36px var(--font-text); --ls: -.01em; color: var(--ink); margin: 0; }
+.t-note { font: 400 24px/34px var(--font-text); --ls: -.006em; color: var(--ink-2); margin: 0; }
+.t-label { font: 500 20px/28px var(--font-text); --ls: 0em; color: var(--ink); }
+.t-small { font: 400 20px/28px var(--font-text); --ls: 0em; color: var(--ink-2); }
+.t-source, .t-caption { font: 400 18px/24px var(--font-text); --ls: .004em; color: var(--ink-3); margin: 0; }
+.t-sub { font: 400 28px/36px var(--font-text); --ls: -.004em; color: var(--ink-2); margin: 0; }
+.t-mute { color: var(--ink-2); }
+.tag {                                             /* basis tag: tiny outline capsule */
+  display: inline-flex; align-items: center; height: 26px; padding: 0 11px;
+  border: 1px solid var(--hairline); border-radius: 13px;
+  font: 500 16px/1 var(--font-text); --ls: .01em; color: var(--ink-2); white-space: nowrap;
+}
+
+/* 7. Export passes (driven by render.py) --------------------------------------
+   .kit-plate: everything that is not field or glass material is hidden and the
+   slide is screenshotted at 2x. .kit-baked: that plate goes in as an <img>
+   under everything, the material layers are removed and the live ink (text,
+   chart) stays exactly where it was, so it prints as vector, selectable text. */
+.slide.kit-plate * { visibility: hidden; }
+.slide.kit-plate .field, .slide.kit-plate .field *,
+.slide.kit-plate .glass, .slide.kit-plate .glass__backdrop, .slide.kit-plate .glass__backdrop *,
+.slide.kit-plate .glass__rim, .slide.kit-plate .glass__rim * { visibility: visible; }
+.slide.kit-plate .glass { color: transparent; }
+.slide.kit-baked > .kit-plate-img { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 0; }
+.slide.kit-baked > .field, .slide.kit-baked .glass__backdrop, .slide.kit-baked .glass__rim { display: none; }
+.slide.kit-baked .glass { box-shadow: none; }
+.slide.kit-baked .glass::before, .slide.kit-baked .glass::after { display: none; }

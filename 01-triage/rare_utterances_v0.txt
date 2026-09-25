@@ -1,0 +1,164 @@
+
+##### email/2025-03-16-re-training-compliance-12.txt
+[] : I'm out Monday, so please loop in Priya if anything comes up.
+
+##### email/2025-04-09-merchant-statements.txt
+[] : Filing the Q1 merchant statements and we are on three different processors. Sunbit at the original Columbus practices, BluePay at the ones we bought in 2022 and 2023, and CardConnect at everything from Wabash forward.
+[] : I did not add it all up but the effective rates look different enough that it seemed worth mentioning. CardConnect looks like the expensive one.
+
+##### email/2025-06-27-re-recovery-by-person.txt
+[] : I have not forgotten this. The worklog data is in the clearinghouse and it does not export cleanly, I have been pulling it month by month by hand. I have January through May done. I will send when I have the full year.
+
+##### email/2025-07-22-supply-agreement-question.txt
+[] : I went back through this because Josh said on a call in the spring that we consolidated to Schein, and that is not what the AP detail shows.
+[] : We are buying from both. It is close to an even split, and it has been an even split every month since the Wabash deal closed. There is no consolidation. What we signed in 2023 was a master pricing agreement with each of them, not an exclusive with either of them.
+[] : I also want to flag something I do not think anyone has looked at. Both agreements have volume rebate tiers in them. I have attached the Schein one. Because we split the volume, we land in the second tier with both of them instead of the top tier with one. And separately, as far as I can tell we have never actually filed the quarterly claim forms, so we have not collected the rebate we did earn either. I do not see rebate income anywhere on the P&L for 2023, 2024 or 2025.
+[] : I might be wrong about the filing. Nash is checking with Schein's rep. But the tier math is not ambiguous.
+
+##### email/2025-08-19-carrier-invoice-headcount.txt
+[] : Anthem is invoicing us for more covered lives than I have benefits-eligible employees. It has been off all year and I finally sat down with it.
+[] : I think what happened is that when we closed Wabash and Stonebridge, their existing group plans were never terminated. The employees got enrolled in our plan on day one like they were supposed to, but nobody called the old carrier. So some of these people are on two plans and we are paying the employer side on both.
+[] : I do not have a clean list because the legacy enrollments are not in our HRIS, they are only on the carrier invoices. I can request a full census from each carrier but it takes a few weeks.
+[] : Separately, and this is a different problem, our eligibility threshold is thirty hours and I have people sitting at twenty-nine that are enrolled anyway. I think the hours got entered once at hire and never re-run.
+
+##### email/2025-08-29-re-monthly-numbers-41.txt
+[] : I'm out the 14th, so please loop in Priya if anything comes up.
+
+##### email/2025-09-30-the-columbus-office.txt
+[] : The single biggest number on our overhead line is the Columbus office and the people in it. Twenty-four thousand square feet for thirty-one people, and half of those people are billing clerks who could sit anywhere.
+[] : If we gave up that lease and went distributed we would take out well over a million dollars a year, and it is the one move big enough that the lender would actually notice. Every practice is contribution-positive so there is nothing to close at the site level. This is where the fat is.
+
+##### email/2025-10-01-re-the-columbus-office.txt
+[] : You are wrong for two reasons and I want them both in writing so we stop relitigating this.
+[] : One, we cannot get out of the lease. It runs to 2032, there is no termination right, and the landlord has refused sublease consent for two other tenants in that building in the last eighteen months. Legal looked at this in 2024. The memo is in the drive.
+[] : Two, the "billing clerks who could sit anywhere" are the reason we collect anything at all. Fourteen of the thirty-one are revenue cycle. If we cut that team our denial write-offs go up, not down, and those write-offs are already over a million dollars a year. We would be trading a real cost for a bigger one and calling it savings.
+[] : I am not saying overhead is untouchable forever. I am saying it is not the FY26 answer and every hour we spend on it is an hour we are not spending on something that would actually work.
+
+##### email/2025-10-14-re-two-cost-centers.txt
+[] : Keep them where they are for now, I do not want to move things around mid-quarter and have the practice-level P&Ls stop tying. Put it on the list for the January cleanup and remind me.
+
+##### email/2025-10-14-two-cost-centers-i-dont-recognize.txt
+[] : Coding the October AP and I have recurring charges hitting two practice codes that are not in the practice master. NGD-23 and NGD-24. Dentrix, Weave, Spectrum, Vector Security and Cintas, every month, same amounts.
+[] : I asked Tom and he said those are the Grandview and Beavercreek sites. He thought they opened in 2023. They are not in the practice list and they are not in the production report, so I do not think they did.
+[] : Do I keep coding them to the same place or do you want them somewhere else?
+
+##### email/2025-11-06-fw-fw-fw-toledo-question.txt
+[] : Priya - see below, this is the thread I mentioned. Mostly about the hygiene schedule but there is a bunch of history in here. Sorry it is such a mess.
+
+##### email/2026-08-14-phone-system-104.txt
+[] : I'm out Monday, so please loop in Priya if anything comes up.
+
+##### transcripts/2025-01-08-marketing-sync-0.txt
+[02:19:57] Josh Pemberton: Florence had a patient complaint about wait times. Second one this month.
+[02:54:53] Priya Raghunathan: Fort Wayne ran out of composite Tuesday and had to borrow from Delaware.
+
+##### transcripts/2025-01-21-practice-manager-monthly-2.txt
+[02:03:59] Idris Achebe: Florence had a patient complaint about wait times. Second one this month.
+
+##### transcripts/2025-01-25-marketing-sync-3.txt
+[02:32:08] Josh Pemberton: Gahanna's pan unit is throwing an error code again. Third time this quarter.
+
+##### transcripts/2025-01-31-revenue-cycle-standup-4.txt
+[01:43:54] Delphine Marchbanks: Dublin is still faxing eligibility requests. I didn't know you could still do that.
+
+##### transcripts/2025-02-28-marketing-sync-8.txt
+[00:25:41] Priya Raghunathan: Warsaw wants to extend Friday hours. I told them to model it first.
+
+##### transcripts/2025-03-11-weekly-operations.txt
+[00:10:32] Priya Raghunathan: Next thing. Supply spend. Renata flagged that we're up year over year and I want to close this out because we've talked about it three times.
+[00:10:47] Josh Pemberton: I thought we handled this. We consolidated everything to Henry Schein last year. That was the whole point of the master agreement.
+[00:13:45] Josh Pemberton: So if we're consolidated and we're still up, it's utilization, not price. Which means it's a clinical conversation, not a purchasing conversation.
+[00:18:57] Priya Raghunathan: Okay, we lost them. Josh, take the action to go talk to the practice managers about utilization. Let's stop spending meeting time on this.
+
+##### transcripts/2025-03-22-finance-close-review-11.txt
+[03:22:46] Dana Reyes: Toledo ran out of composite Tuesday and had to borrow from Toledo.
+
+##### transcripts/2025-03-27-marketing-sync-12.txt
+[00:36:24] Wes Aldridge: Powell's pan unit is throwing an error code again. Third time this quarter.
+
+##### transcripts/2025-04-07-marketing-sync-14.txt
+[00:23:59] Priya Raghunathan: Mason's front desk turned over twice this year. That's the third person.
+
+##### transcripts/2025-04-11-marketing-sync-15.txt
+[00:43:14] Wes Aldridge: Hilliard's front desk turned over twice this year. That's the third person.
+
+##### transcripts/2025-04-20-weekly-operations-call-16.txt
+[00:54:19] Tom Kirkbride: Cincinnati is asking whether they can do their own Google reviews campaign.
+
+##### transcripts/2025-05-03-marketing-sync-18.txt
+[02:39:04] Josh Pemberton: Ontario ran out of composite Tuesday and had to borrow from Perrysburg.
+[03:23:43] Wes Aldridge: Lexington's pan unit is throwing an error code again. Third time this quarter.
+
+##### transcripts/2025-05-10-finance-close-review-19.txt
+[00:43:23] Renata Silva: Dublin is still faxing eligibility requests. I didn't know you could still do that.
+
+##### transcripts/2025-05-19-practice-manager-monthly-20.txt
+[01:44:40] Idris Achebe: Fishers lost a hygienist. Two weeks notice. We're covering with a temp.
+
+##### transcripts/2025-05-20-it-integration-sync.txt
+[00:10:51] Priya Raghunathan: Tom, give me the real number on getting everybody onto one practice-management system. Not the vendor's number.
+[00:11:59] Tom Kirkbride: Six to ten weeks per site if nothing goes wrong. Eighteen to thirty thousand a site in one- time cost, and that's mostly the production dip, not the software. You lose about a third of a week of schedule while people relearn.
+[00:14:33] Tom Kirkbride: You wouldn't do twenty-two. Fourteen are already on the same platform. It's the eight from the 2024 and 2025 deals.
+[00:15:49] Tom Kirkbride: Wabash, all three. Stonebridge, all three. Bluegrass Nicholasville. And Cardinal Point Florence, which nobody remembers because it's tiny.
+[00:18:11] Tom Kirkbride: And it's worth saying, those eight are the ones still doing paper routing slips. The procedures get done, somebody prints a slip, and somebody at corporate types it into the billing queue. That's the actual cost of not migrating, not the license.
+[00:20:16] Tom Kirkbride: I don't know. Nobody checks. There's no report that compares what got done to what got billed, because the clinical record and the billing record are in two different systems that don't talk.
+[00:21:41] Tom Kirkbride: I've got three people and four practice-management systems. Put it on the list.
+
+##### transcripts/2025-05-24-practice-manager-monthly-21.txt
+[02:25:58] Barrett Lindqvist: Hilliard lost a hygienist. Two weeks notice. We're covering with a temp.
+
+##### transcripts/2025-05-31-marketing-sync-22.txt
+[01:49:08] Wes Aldridge: Toledo ran out of composite Tuesday and had to borrow from Auburn.
+
+##### transcripts/2025-06-04-rcm-team-review.txt
+[00:02:50] Bev Oyelaran: Lexington's pan unit is throwing an error code again. Third time this quarter.
+[00:10:23] Dana Reyes: Bev, I'm looking at the productivity report you sent. Help me understand it. Odessa and Delphine are working two hundred plus claims a month each. Marguerite is at, what, thirty?
+[00:12:11] Odessa Yerkes: I mean, we're in the queue all day. I'm logged into DentalXChange from seven-thirty to five most days.
+[00:15:49] Marguerite Vance: Aged AR. Ninety days and out. The ones the queue already gave up on. I call the payer, I get a human, and I work it until it pays or until somebody tells me why it never will.
+[00:16:32] Marguerite Vance: By phone. There's no portal for a claim that's already been denied twice. You have to talk to a person, and you have to know which person.
+[00:19:19] Bev Oyelaran: In fairness the dollar values aren't comparable either. Marguerite's claims are the big ones. The queue is mostly small-balance.
+[00:27:56] Dana Reyes: Alright. Bev, get me recovery dollars per person, not claims per person. I don't want to be making headcount decisions off a metric that measures the wrong thing.
+
+##### transcripts/2025-06-20-marketing-sync-25.txt
+[00:50:12] Speaker 2: Cincinnati is asking whether they can do their own Google reviews campaign.
+
+##### transcripts/2025-06-25-marketing-sync-26.txt
+[00:31:49] Priya Raghunathan: Mason's front desk turned over twice this year. That's the third person.
+
+##### transcripts/2025-07-03-weekly-operations-call-27.txt
+[02:32:10] Angela Nkemelu: Fort Wayne has forty-two unscheduled treatment plans sitting over ninety days old.
+
+##### transcripts/2025-07-10-marketing-sync-28.txt
+[03:25:44] Wes Aldridge: Florence lost a hygienist. Two weeks notice. We're covering with a temp.
+
+##### transcripts/2025-08-16-marketing-sync-34.txt
+[01:12:11] Josh Pemberton: Florence lost a hygienist. Two weeks notice. We're covering with a temp.
+[01:48:18] Josh Pemberton: Fishers lost a hygienist. Two weeks notice. We're covering with a temp.
+
+##### transcripts/2025-09-15-weekly-operations-call-39.txt
+[02:44:39] Dana Reyes: Fort Wayne ran out of composite Tuesday and had to borrow from Fishers.
+
+##### transcripts/2025-09-17-lender-prep-internal.txt
+[00:05:53] Speaker 1: It's not good. We're EBITDA positive and pre-tax negative and they can read. The question they're going to ask is what structural improvement we've made since the last one, and the honest answer is a hiring freeze.
+[00:07:47] Speaker 1: It's a hundred and eighty thousand of something. It doesn't move the needle and they know it doesn't move the needle.
+[00:09:11] Speaker 1: That's what I'm trying to figure out. My problem is I don't actually know where the money is in this business. I have twenty-two P&Ls that roll up into one P&L and I can tell you what we spent. I cannot tell you what we wasted. Those are completely different questions and I only have an answer to the first one.
+[00:10:08] Speaker 1: Grantley gave us sixty slides that said 'revenue cycle transformation.' I asked them what number that was. They said it was a range. I asked what the range was. They said it depended on implementation.
+[00:15:06] Speaker 1: I want someone to go through this business line by line and tell me what's actually recoverable. Not a category. A number, with the work shown, that I can put in front of a lender and defend when they push on it. And if the answer is that it's not enough, I need to know that now and not in March.
+
+##### transcripts/2025-09-29-weekly-operations-call-41.txt
+[01:36:52] Josh Pemberton: Delaware ran out of composite Tuesday and had to borrow from Nicholasville.
+
+##### transcripts/2025-10-16-hr--staffing-review-43.txt
+[00:11:49] Priya Raghunathan: Gahanna's pan unit is throwing an error code again. Third time this quarter.
+
+##### transcripts/2025-10-31-revenue-cycle-standup-45.txt
+[00:25:13] Odessa Yerkes: Fishers wants to extend Friday hours. I told them to model it first.
+
+##### transcripts/2026-01-03-marketing-sync-54.txt
+[02:19:51] Priya Raghunathan: Fort Wayne has forty-two unscheduled treatment plans sitting over ninety days old.
+
+##### transcripts/2026-01-11-weekly-operations-call-55.txt
+[00:42:16] Speaker 4: Toledo is still faxing eligibility requests. I didn't know you could still do that.
+
+##### transcripts/2026-01-26-finance-close-review-57.txt
+[01:04:12] Nash Sorensen: Powell's pan unit is throwing an error code again. Third time this quarter.
