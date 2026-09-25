@@ -108,6 +108,16 @@
     }
   });
 
+  /* ---------- hosted on GitHub Pages: repo names become links to the real repos ---------- */
+  if (/\.github\.io$/i.test(location.hostname)) {
+    const owner = location.hostname.split('.')[0];
+    $$('a[data-gh]').forEach(a => {
+      a.href = 'https://github.com/' + owner + '/' + a.dataset.gh;
+      a.textContent = 'github.com/' + owner + '/' + a.dataset.gh;
+      a.classList.add('is-live');
+    });
+  }
+
   /* ---------- source browser ---------- */
   const src = $('.src');
   if (!src) return;

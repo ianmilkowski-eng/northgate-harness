@@ -543,7 +543,7 @@ system_sec = f"""
               'second copy of any number to drift.')}
     <div class="block sys-top">
       <div class="cmds pane">
-        <p class="plbl">Install and run</p>
+        <p class="plbl">Install and run, from a clone of <a class="gh" data-gh="northgate-recovery">northgate-recovery</a></p>
         <div class="cmd-line"><span class="pr">$</span><code>pip install -r requirements.txt</code></div>
         <div class="cmd-line"><span class="pr">$</span><code>python -m northgate</code></div>
         <p class="cmds-note">Python 3.10 or later. pandas is the only dependency, and the run takes under two seconds.</p>
@@ -788,8 +788,9 @@ source_sec = f"""
 <section class="sec" id="source" aria-labelledby="source-h">
   <div class="wrap">
     {sec_head(7, 'source', '<span id="source-h">Both repositories, file by file</span>',
-              'Everything in northgate-recovery and northgate-harness as submitted, except the packet itself and the font files. '
-              'To run it, clone from the links in the email.')}
+              'Everything in <a class="gh" data-gh="northgate-recovery">northgate-recovery</a> and '
+              '<a class="gh" data-gh="northgate-harness">northgate-harness</a> as submitted, except the packet itself '
+              'and the font files. To run it, clone the system repo and follow its README.')}
     <div class="block">
       <div class="src pane">
         <div class="src-top">
