@@ -66,7 +66,7 @@ Both went down. The headline went from $1.33M to $1.10M counted, and I'd rather 
 | `02-analysis/` | My first-pass script and the running analysis notes |
 | `03-specs/` | The system spec, the deck spec, and the JSON contract between them |
 | `04-agents/` | Every sub-agent prompt, verbatim, with what each one got right and wrong |
-| `05-deck/` | The deck builder and the glass kit (`NOTES.md` has the PDF rendering tests) |
+| `05-deck/` | The deck builder, the glass kit (`NOTES.md` has the PDF rendering tests), and `submission.py`, which builds the one-file HTML version I sent by email |
 | `06-verification/` | The play-Dana prompt, what it found, and what changed |
 | `FAILURES.md` | Ten things that broke and how each one got caught |
 
