@@ -51,3 +51,9 @@ When the rebate moved from $150K to $165K, it passed duplicate health plans ($15
 ## 9. The first deck spec asked for numbers that don't exist
 
 My deck spec had copy like "6 sites acquired since 2024" and "Corporate headcount stays at 31". Those numbers weren't in the JSON contract. The deck agent refused to type them in by hand and reworded the copy instead. That was annoying in the moment and correct: every figure on a slide has to come out of the system.
+
+## 10. The fonts I picked couldn't be installed
+
+**What happened.** The deck was designed around Inter and Inter Tight. This build environment blocks Google Fonts, npm and GitHub, so Inter was never available offline for the PDF. The drafts rendered in a stand-in, and the web version would have loaded Inter from Google at view time. That meant two different typefaces for one deck.
+
+**Fix.** I didn't route around the network policy. I committed to the stand-in on purpose: Instrument Sans (OFL), which ships with the glass kit. It has the precision and tabular figures I wanted from Inter, with more character at display sizes. The PDF embeds it, and the web page carries the same four weights inline, so every surface shows the exact same letters.

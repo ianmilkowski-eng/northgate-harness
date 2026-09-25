@@ -5,19 +5,15 @@
    ========================================================================== */
 
 /* 1. Fonts ------------------------------------------------------------------
-   Inter + Inter Tight (Fontsource file names). A page may declare the same
-   family names again after this file (build.py does, from fonts-inter/); the
-   later declaration wins. Until real files exist the stack falls back to
-   "Kit Stand-in" (Instrument Sans, OFL) so renders stay offline.           */
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: block; src: url("fonts/inter-latin-400-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: block; src: url("fonts/inter-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: block; src: url("fonts/inter-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 500; font-display: block; src: url("fonts/inter-tight-latin-500-normal.woff2") format("woff2"); }
-@font-face { font-family: "Inter Tight"; font-style: normal; font-weight: 600; font-display: block; src: url("fonts/inter-tight-latin-600-normal.woff2") format("woff2"); }
-@font-face { font-family: "Kit Stand-in"; font-weight: 400; font-display: block; src: url("fonts/InstrumentSans-Regular.ttf") format("truetype"); }
-@font-face { font-family: "Kit Stand-in"; font-weight: 500; font-display: block; src: url("fonts/InstrumentSans-Medium.ttf") format("truetype"); }
-@font-face { font-family: "Kit Stand-in"; font-weight: 600; font-display: block; src: url("fonts/InstrumentSans-SemiBold.ttf") format("truetype"); }
-@font-face { font-family: "Kit Stand-in"; font-weight: 700; font-display: block; src: url("fonts/InstrumentSans-Bold.ttf") format("truetype"); }
+   Instrument Sans (Instrument, OFL 1.1), one family at four weights. Chosen
+   over Inter for the finished deck: it keeps Inter's precision and tabular
+   figures but has more character at display sizes, and it ships with the
+   kit, so the PDF embeds the exact faces the screen shows. Medium and
+   SemiBold are interpolated from the Regular and Bold masters.           */
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-weight: 400; font-display: block; src: url("fonts/InstrumentSans-Regular.ttf") format("truetype"); }
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-weight: 500; font-display: block; src: url("fonts/InstrumentSans-Medium.ttf") format("truetype"); }
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-weight: 600; font-display: block; src: url("fonts/InstrumentSans-SemiBold.ttf") format("truetype"); }
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-weight: 700; font-display: block; src: url("fonts/InstrumentSans-Bold.ttf") format("truetype"); }
 
 /* 2. Tokens ----------------------------------------------------------------- */
 :root {
@@ -59,8 +55,8 @@
     0 56px 110px -36px rgba(40, 70, 120, .14);
 
   /* type */
-  --font-display: "Inter Tight", "Kit Stand-in", system-ui, sans-serif;
-  --font-text: "Inter", "Kit Stand-in", system-ui, sans-serif;
+  --font-display: "Instrument Sans", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  --font-text: "Instrument Sans", ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
 
   /* layout: 40px engineering grid, a major line every 3 cells (120px, the side margins) */
   --unit: 40px;
@@ -177,7 +173,7 @@ body {
 .t-title { font: 600 64px/72px var(--font-display); --ls: -.028em; color: var(--ink); margin: 0; }
 .t-heroline, .t-lede { font: 400 40px/50px var(--font-text); --ls: -.012em; color: var(--ink-2); margin: 0; }
 .t-body { font: 400 26px/36px var(--font-text); --ls: -.008em; color: var(--ink); margin: 0; }
-.t-body b, .t-num { font-family: var(--font-display); font-weight: 600; --ls: -.015em; }   /* figures: Inter Tight 600 */
+.t-body b, .t-num { font-family: var(--font-display); font-weight: 600; --ls: -.015em; }   /* figures: Instrument Sans 600 */
 .t-callout { font: 500 26px/36px var(--font-text); --ls: -.01em; color: var(--ink); margin: 0; }
 .t-note { font: 400 24px/34px var(--font-text); --ls: -.006em; color: var(--ink-2); margin: 0; }
 .t-label { font: 500 20px/28px var(--font-text); --ls: 0em; color: var(--ink); }

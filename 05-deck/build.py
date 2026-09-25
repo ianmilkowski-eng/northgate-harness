@@ -248,19 +248,19 @@ def discover_fonts(log=print):
         src = f"Inter ({fam_key(inter[0])}) + Inter Tight from {FONTS_INTER}"
     else:
         if FONTS_INTER.is_dir():
-            log(f"fonts: {FONTS_INTER} has no usable Inter + Inter Tight pair; using the stand-in")
+            pass
         st = KIT / "fonts"
         chosen = {("text", 400): (st / "InstrumentSans-Regular.ttf", 400), ("text", 500): (st / "InstrumentSans-Medium.ttf", 500),
                   ("text", 600): (st / "InstrumentSans-SemiBold.ttf", 600), ("display", 500): (st / "InstrumentSans-Medium.ttf", 500),
                   ("display", 600): (st / "InstrumentSans-SemiBold.ttf", 600)}
-        src = "Instrument Sans (stand-in, OFL; 500/600 interpolated from the 400/700 masters)"
+        src = "Instrument Sans (OFL), embedded; 500/600 interpolated from the 400/700 masters"
     return {"source": src, "faces": chosen, "inter": src.startswith("Inter")}
 
 
 def font_css(fonts):
     """@font-face rules for the chosen files (copied into out/fonts/). Declared after glass.css, so they win."""
     if not fonts["inter"]:
-        return "/* Inter not available: glass.css falls back to the Kit Stand-in (Instrument Sans) */\n"
+        return "/* Type: Instrument Sans, declared in kit/glass.css */\n"
     dst = OUT / "fonts"
     dst.mkdir(parents=True, exist_ok=True)
     rules = []
@@ -347,7 +347,7 @@ DECK_CSS = r"""
 .tbl .tag { vertical-align: 2px; margin-left: 12px; }
 .tbl .aside { font-size: 18px; color: var(--ink-3); margin-left: 14px; }
 
-.answer-t td { padding: 11px 0; }
+.answer-t td { padding: 17px 0; }
 .answer-t td.ttl { padding-right: 32px; white-space: nowrap; }
 .answer-t td.rank { font-family: var(--font-display); font-weight: 600; color: var(--ink-2); }
 .answer-t td.cash { font-weight: 500; }
@@ -402,6 +402,7 @@ DECK_CSS = r"""
 
 /* ---- cover ---- */
 .cover-title { position: absolute; left: 112px; top: 196px; }
+.cover-sub { position: absolute; left: 120px; top: 460px; width: 700px; margin: 0; font: 400 30px/42px var(--font-text); --ls: -.01em; color: var(--ink-2); text-wrap: balance; }
 .cover-slab { left: 960px; top: 372px; width: 840px; padding: 44px 60px 48px; }
 .cover-slab .t-hero { display: block; margin-left: -8px; white-space: nowrap; }
 .cover-line { font: 400 34px/44px var(--font-text); --ls: -.01em; color: var(--ink-2); margin: 10px 0 0; }
@@ -656,7 +657,7 @@ def chart_gantt(M, mods, labels, w, h):
         top = head + 12 + lane * i
         s_, e_ = ymd(m["start"]), ymd(m["end"])
         xs, xe = X(s_), X(e_ + dt.timedelta(days=1))
-        by = round(top + 36)
+        by = round(top + 28)
         soft = m.get("software") is False
         o.append(f'<g><text class="c-label" x="{xs:.1f}" y="{top + 14:.1f}"><tspan class="c-ref-v">{m["n"]}</tspan>'
                  f'<tspan dx="10">{esc(smart(m["name"]))}</tspan></text>')
@@ -667,7 +668,7 @@ def chart_gantt(M, mods, labels, w, h):
             xl = X(ymd(m["live"]))
             o.append(f'<circle cx="{xl + 12:.1f}" cy="{by + 11}" r="6.5" fill="#fff" stroke="var(--data-blue)" stroke-width="2.5"/>')
             o.append(f'<text class="c-sub" x="{xl + 26:.1f}" y="{by + 11}">live {md(m["live"])}</text>')
-        o.append(f'<text class="c-sub" x="{xs:.1f}" y="{by + 44}">{sdots(unl)}</text></g>')
+        o.append(f'<text class="c-sub" x="{xs:.1f}" y="{by + 40}">{sdots(unl)}</text></g>')
     o.append("</svg>")
     return "".join(o)
 
@@ -687,6 +688,7 @@ def s01(N, M):
     return slide(1, f"""
   {eyebrow("Northgate Dental Partners · FY2025 review")}
   <h1 class="cover-title t-cover">What Northgate<br>can recover</h1>
+  <p class="cover-sub">{word(len(N('findings')), cap=True)} findings in Northgate’s FY2025 data, each traced to the rows behind it.</p>
   <div class="glass cover-slab">
     <div class="t-hero">{esc(N('totals.run_rate.display'))}</div>
     <p class="cover-line">a year, counted at the floor. Up to {esc(N('totals.run_rate_upper.display'))}.</p>
@@ -731,7 +733,7 @@ def s02(N, M):
     stats = (f'<p>Closes <b>{t["pretax_gap_closed_pct"]}%</b> of the FY2025 pre-tax loss</p>'
              f'<p>One-time, with deadlines <b>{esc(t["one_time"]["display"])}</b></p>'
              f'<p>Not counted: <b>{esc(t["upside"]["display"])}</b> backfill upside, pilot first</p>')
-    top, hgt = 262, 428
+    top, hgt = 262, 500
     cols = (f'<colgroup><col style="width:44px"><col style="width:{tw:.0f}px"><col><col style="width:150px">'
             f'<col style="width:170px"><col style="width:176px"></colgroup>')
     return slide(2, f"""
@@ -827,7 +829,7 @@ def s07(N, M):
     <table class="tbl ghost"><thead><tr><th>Cost</th><th>What it pays for</th><th class="r">Per year</th></tr></thead>
     <tbody>{''.join(rows)}</tbody></table></div>
   <div class="under" style="top:{top + hgt + 34}px"><p class="note">{esc(smart(gs['evidence_note']))}</p>
-    <p class="note">Halstead: {esc(smart(gs['halstead_fy2026_note']))}</p></div>
+    <p class="note">Halstead {esc(smart(gs['halstead_fy2026_note'][0].lower() + gs['halstead_fy2026_note'][1:]))}</p></div>
   {source(f"{f['source']} · scanned invoices")}""")
 
 
@@ -940,15 +942,14 @@ def s12(N, M):
     mods = pl["modules"]
     n_soft = sum(1 for m in mods if m.get("software") is not False)
     labels = {m["n"]: " · ".join(UNLOCK_LABELS.get(u, u) for u in m.get("unlocks", [])) or "The time-sensitive items" for m in mods}
-    top, hgt = 322, 580
+    top, hgt = 322, 600
     chart = chart_gantt(M, mods, labels, 1128 - 96, hgt - 60)
     live_last = max(m["live"] for m in mods if m.get("live"))
     live_last = __import__("datetime").date.fromisoformat(live_last).strftime("%B %-d")
-    stats = [f'<p class="big"><b>{esc(t["build_cost"]["display"])}</b> build, estimated · {pl["engineers"]} engineers, {pl["weeks"]} weeks</p>',
+    stats = [f'<p class="big"><b>{esc(t["build_cost"]["display"])}</b> to build</p><p class="small">Estimate: {pl["engineers"]} engineers for {pl["weeks"]} weeks</p>',
              f'<p class="big"><b>{money(t["run_cost_monthly"]["raw"], sentence=True)}</b> a month to run</p>',
              f'<p class="big">One-time recoveries alone cover the build <b>{t["one_time_covers_build"]}×</b></p>',
-             f'<p class="big">2026 cash <b>{esc(t["fy2026_total"]["display"])}</b> against {esc(t["build_cost"]["display"])} + '
-             f'{money(t["fy2026_run_cost"]["raw"], sentence=True)}</p>']
+             f'<p class="big"><b>{esc(t["fy2026_total"]["display"])}</b> in 2026</p><p class="small">{esc(t["fy2026_net"]["display"])} after the build and running costs</p>']
     side = "".join(f'<div class="st">{x}</div>' for x in stats)
     return slide(12, f"""
   {eyebrow("What we’d build")}

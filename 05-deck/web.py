@@ -22,8 +22,15 @@ glass_js = (DECK / "kit/glass.js").read_text()
 findings = {f["id"]: f for f in json.loads((SYS / "findings.json").read_text())["findings"]}
 numbers = json.loads((SYS / "deck-numbers.json").read_text())
 
-# local @font-face rules point at files the viewer can't load; Google Fonts supplies the real faces
+# the kit's @font-face rules point at local files; the web page carries the same faces inline
+import base64
 glass_css = re.sub(r'@font-face\s*{[^}]*}\s*', "", glass_css)
+FACES = [(400, "Regular"), (500, "Medium"), (600, "SemiBold"), (700, "Bold")]
+font_faces = "\n".join(
+    '@font-face { font-family: "Instrument Sans"; font-style: normal; font-weight: %d; font-display: block; '
+    'src: url(data:font/ttf;base64,%s) format("truetype"); }'
+    % (w, base64.b64encode((DECK / "kit/fonts" / f"InstrumentSans-{n}.ttf").read_bytes()).decode())
+    for w, n in FACES)
 
 body = page.split("<body>", 1)[1].rsplit("</body>", 1)[0]
 body = re.sub(r'<script src="kit/glass.js"></script>', "", body)
@@ -171,10 +178,8 @@ top = (f'<header class="web-top"><span><b>Northgate: what’s recoverable</b> ·
        f'<span class="keys">{esc(n["run_rate"]["display"])} a year counted · {esc(n["one_time"]["display"])} one-time · arrow keys move between slides</span></header>')
 
 out = f"""<title>{title}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600&display=swap">
 <style>
+{font_faces}
 {glass_css}
 {deck_css}
 {web_css}
