@@ -61,3 +61,20 @@ It also caught:
 When the system agent implemented the effort-adjusted model, it pointed out something important. The effort slope comes from differences *between people*: the two queue specialists work cheap claims fast. *Within* one person's months, the slope is flat. So "bigger claims take more work" isn't proven either.
 
 I kept the cautious number as the counted floor and put the full range on the slide. The first month of the ranked queue measures the real effort curve. That's the honest version: I don't know the slope, the data doesn't know it, and the pilot finds out.
+
+## The questions Dana will ask in Stage 3
+
+These are the reviewer's six hardest questions. Each answer is what the data supports *after* the revisions.
+
+1. **"Why would value-first ordering lose the same number of claims if big claims take more work?"**
+   It might not. That's why the counted number is the cautious $203K, not $347K. Within one person's work, the data shows no effort slope. The ranked queue's first month measures it.
+2. **"Are Wabash and Stonebridge on Schein's Schedule A?"**
+   We don't know. The floor ($74K) doesn't depend on it. For 2026 we'd move volume to Patterson, which has no Schedule A clause, and rebid both at renewal.
+3. **"How much of the $1.10M is measured, not modeled?"**
+   $818K. That's unbilled procedures, duplicate plans, ghost spend and card fees. Denials ($203K) are modeled. Rebates ($74K) are contractual, at the floor.
+4. **"What does a month's delay cost?"**
+   The $10K Schein claim (Feb 14) and the Patterson claim (Mar 1). About $1,200 a day of unbilled backlog. And Dr. Osei's claims start expiring Mar 14.
+5. **"Can we get back what we already paid on the sellers' plans?"**
+   Maybe. It's the sellers' obligation under the purchase agreements, and FY2025 alone was $158K. That's counsel's call, and it isn't counted.
+6. **"Isn't your $1.94M backfill just Grantley again?"**
+   That's why it isn't counted. If managers already fill 20% of openings, it's about $969K. Nothing counts until a 3-site pilot measures the fill rate.

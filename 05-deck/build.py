@@ -58,7 +58,7 @@ def real_ready():
         d = json.loads(REAL.read_text())
     except Exception:
         return False, None
-    return d.get("totals", {}).get("run_rate", {}).get("raw") == READY_RUN_RATE, d
+    return "run_rate_upper" in d.get("totals", {}), d   # current schema (round 3) is present
 
 
 def load_numbers(choice, wait):
@@ -434,6 +434,10 @@ def pill(n):
     return f'<div class="glass glass--pill page-pill t-label"><span>{n:02d} <span class="of">/ {TOTAL}</span></span></div>'
 
 
+def fid(N, i):
+    return next(x for x in N("findings") if x["id"] == i)
+
+
 def slide(n, body, cls=""):
     return f'<section class="slide {cls}" id="s{n:02d}" data-n="{n}">\n  <div class="field"></div>\n{body}\n  {pill(n)}\n</section>'
 
@@ -685,7 +689,7 @@ def s01(N, M):
   <h1 class="cover-title t-cover">What Northgate<br>can recover</h1>
   <div class="glass cover-slab">
     <div class="t-hero">{esc(N('totals.run_rate.display'))}</div>
-    <p class="cover-line">a year, every dollar traced to a row</p>
+    <p class="cover-line">a year, counted at the floor. Up to {esc(N('totals.run_rate_upper.display'))}.</p>
     <div class="cover-rule"></div>
     <p class="cover-once">+ <b>{esc(N('totals.one_time.display'))}</b> one-time, before {md(last)}</p>
   </div>
@@ -693,36 +697,38 @@ def s01(N, M):
 
 
 def s03(N, M):
-    f, cc = N("findings[0]"), N("charge_capture")
+    f, cc = fid(N, "charge_capture"), N("charge_capture")
     others = all_sites(N) - len(cc["sites"])                            # every site minus the flagged ones
     base1 = pct_keep(round(cc["baseline_pct"], 1))
     top, hgt = 382, 468
     chart = chart_sites(M, cc["sites"], cc["baseline_pct"], f"Other {others} sites", 1680 - 96, hgt - 68)
     q = cc["quote"]
-    return slide(3, f"""
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Unbilled procedures", f['basis'])}
   {headline(f['annual']['display'], "a year in procedures that were done but never billed")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:34px 48px">{chart}</div>
-  <p class="under quote" style="top:{top + hgt + 30}px">“{esc(smart(q['text']))}.” <span class="who">— {esc(q['who'])}, {esc(q['when'])}</span></p>
+  <p class="under quote" style="top:{top + hgt + 30}px">“{esc(smart(q['text']))}.” <span class="who">{esc(q['who'])}, {esc(q['when'])}</span></p>
   {source(f"{f['source']} · above the {base1} baseline, at the {cc['net_collection_pct']}% collection rate")}""")
 
 
 
 def s02(N, M):
     fs = N("findings")
-    mx = max(f["annual"]["raw"] for f in fs)
+    mx = max(f["upper"]["raw"] for f in fs)
     tw = max(M.width(smart(f["title"]), 24, "text", 400) for f in fs) * 1.10 + 32   # 8%+ slack and a gutter before the bars
     barw = int(1680 - 104 - 44 - tw - 150 - 170 - 176 - 36)   # what the fixed columns leave, less a gutter
     rows = []
     for f in fs:
         L = f["annual"]["raw"] / mx * (barw - 8)
+        U = f["upper"]["raw"] / mx * (barw - 8)
+        ext = (f'<path d="{rbar(0, 1, U, 22)}" fill="var(--data-blue)" fill-opacity=".22"/>' if U > L + 1 else "")
         svg = (f'<svg class="chart" width="{barw}" height="24" viewBox="0 0 {barw} 24"><title>{esc(f["title"])}: {esc(f["annual"]["display"])}</title>'
-               f'<path class="mark" d="{rbar(0, 1, L, 22)}"/></svg>')
+               f'{ext}<path class="mark" d="{rbar(0, 1, L, 22)}"/></svg>')
         rows.append(f'<tr><td class="rank">{f["rank"]}</td><td class="ttl">{esc(smart(f["title"]))}</td>'
                     f'<td>{svg}</td><td class="r num">{esc(f["annual"]["display"])}</td>'
-                    f'<td class="r cash">{esc(f["fy2026"]["display"])}</td><td class="r basis"><span class="tag">{esc(f["basis"])}</span></td></tr>')
+                    f'<td class="r cash">{esc(f["upper"]["display"]) if f["upper"]["raw"] != f["annual"]["raw"] else "–"}</td><td class="r basis"><span class="tag">{esc(f["basis"])}</span></td></tr>')
     t = N("totals")
-    stats = (f'<p>FY2025 pre-tax <b>{esc(t["pretax_fy2025"]["display"])}</b></p>'
+    stats = (f'<p>Closes <b>{t["pretax_gap_closed_pct"]}%</b> of the FY2025 pre-tax loss</p>'
              f'<p>One-time, with deadlines <b>{esc(t["one_time"]["display"])}</b></p>'
              f'<p>Not counted: <b>{esc(t["upside"]["display"])}</b> backfill upside, pilot first</p>')
     top, hgt = 262, 428
@@ -730,9 +736,9 @@ def s02(N, M):
             f'<col style="width:170px"><col style="width:176px"></colgroup>')
     return slide(2, f"""
   {eyebrow("The answer")}
-  <div class="titleblock"><h2 class="t-title">{esc(t['run_rate']['display'])} a year, ranked by dollars</h2></div>
+  <div class="titleblock"><h2 class="t-title">{esc(t['run_rate']['display'])} a year we can defend, up to {esc(t['run_rate_upper']['display'])}</h2></div>
   <div class="glass slab answer" style="top:{top}px; height:{hgt}px; padding:34px 52px 30px">
-    <table class="tbl answer-t" style="table-layout:fixed">{cols}<thead><tr><th></th><th>Finding</th><th></th><th class="r key">A year</th><th class="r">2026 cash</th><th class="r">Basis</th></tr></thead>
+    <table class="tbl answer-t" style="table-layout:fixed">{cols}<thead><tr><th></th><th>Finding</th><th></th><th class="r key">Counted</th><th class="r">Up to</th><th class="r">Basis</th></tr></thead>
     <tbody>{''.join(rows)}</tbody></table>
   </div>
   <div class="stats" style="top:{top + hgt + 40}px">{stats}</div>
@@ -740,18 +746,22 @@ def s02(N, M):
 
 
 def s04(N, M):
-    f, dp = N("findings[1]"), N("denial_priority")
-    top, hgt = 382, 330
-    chart = chart_pair(M, [("Today, oldest first", dp["writeoffs_fifo"]["raw"], False),
-                           ("Same claims lost, lowest value first", dp["writeoffs_value_first"]["raw"], True)],
-                       1680 - 104, 200, money)
-    ann = f"{intc(dp['claims_lost'])} of {intc(dp['denials_total'])} denials age past the filing limit either way"
-    return slide(4, f"""
+    f, dp = fid(N, "denial_priority"), N("denial_priority")
+    top, hgt = 382, 392
+    fifo, vf = dp["writeoffs_fifo"]["raw"], dp["writeoffs_value_first"]["raw"]
+    flat = dp["writeoffs_value_first_flat"]["raw"]   # value first, same work per claim: the upper bound
+    chart = chart_pair(M, [("Written off today, oldest first", fifo, False),
+                           ("Value first, bigger claims take more work", vf, True),
+                           ("Value first, same work per claim", flat, False)],
+                       1680 - 104, 250, money)
+    ann = (f"{intc(dp['claims_lost'])} of {intc(dp['denials_total'])} denials age past the filing limit today. "
+           f"The saving runs {dp['range_low']['display']} to {dp['range_high']['display']} a year, depending on how much more work a big claim takes.")
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Denial queue", f['basis'])}
-  {headline(f['annual']['display'], "a year from working denials by value instead of arrival order")}
+  {headline(f['annual']['display'], "a year from working denials by value, counted at the cautious end")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:36px 52px">{chart}
     <p class="note" style="margin-top:22px">{esc(ann)}</p></div>
-  <div class="under" style="top:{top + hgt + 34}px"><p class="note">The queue has no sort by dollars or days left (SOP 3.2–3.3).</p></div>
+  <div class="under" style="top:{top + hgt + 34}px"><p class="note">The queue has no sort by dollars or days left (SOP 3.2–3.3). The first month of the ranked queue measures the real effort curve.</p></div>
   {source(f"{f['source']} · row-average claim values")}""")
 
 
@@ -769,7 +779,7 @@ def s05(N, M):
     top, hgt = 382, 372
     callout = (f"HR’s August email names {word(len(dup['hr_named']))} sellers. "
                f"The carrier invoices show {word(len(dup['sellers']))}.")
-    return slide(6, f"""
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Duplicate health plans", f['basis'])}
   {headline(f['annual']['display'], f"a year for {dup['people']} employees still on a seller’s old plan as well as ours")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:34px 52px">
@@ -788,39 +798,41 @@ def s06(N, M):
     top, hgt = 382, 372
     chart = chart_ladder(M, rb["tiers"], markers, 1680 - 104, hgt - 64)
     lo, hi = rb["schein_share_range_pct"]
-    stats = (f'<p>Rebates collected since 2023: <b>{esc(rb["collected"]["display"])}</b></p>'
-             f'<p>Schein share every month: <b>{pct_keep(lo)[:-1]}–{pct_keep(hi)}</b></p>')
-    note = (f"2026 lands at {pct_keep(rb['fy2026_rate_pct'])} ({rb['fy2026']['display']}) because the agreement ends "
-            f"{rb['agreement_ends']}. Renew in November as one distributor.")
-    return slide(5, f"""
+    stats = (f'<p>Rebate income in the FY2025 P&amp;L and AP ledger: <b>{esc(rb["collected"]["display"])}</b></p>'
+             f'<p>Schein share of purchase orders, every month: <b>{pct_keep(lo)[:-1]}–{pct_keep(hi)}</b></p>')
+    note = ("Counted at the floor: Patterson’s terms don’t say whether the rate covers the whole amount, and Schein pools only the sites on "
+            f"its Schedule A. For 2026, move volume to {rb['recommend_2026']} from March ({rb['fy2026']['display']} to {rb['fy2026_upper']['display']}), "
+            "compare item prices first, and rebid both at renewal.")
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Supply rebates", f['basis'])}
-  {headline(f['annual']['display'], "a year in Henry Schein rebates: one distributor, and the quarterly form filed")}
+  {headline(f['annual']['display'], f"a year at the floor, up to {rb['upper']['display']}, from one distributor and every claim filed")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:32px 52px">{chart}</div>
   <div class="stats" style="top:{top + hgt + 34}px">{stats}</div>
-  <div class="under" style="top:{top + hgt + 88}px"><p class="note">{esc(note)}</p></div>
+  <div class="under" style="top:{top + hgt + 88}px; max-width:1560px"><p class="note">{esc(note)}</p></div>
   {source(f"{f['source']} · Schein agreement §7.2–7.3")}""")
 
 
 def s07(N, M):
-    f, gs = N("findings[4]"), N("ghost_spend")
+    f, gs = fid(N, "ghost_spend"), N("ghost_spend")
     sites = sum(1 for r in gs["rows"] if r["label"].startswith("NGD-"))
     rows = [f'<tr><td class="lbl">{dots(r["label"])}</td><td class="soft">{esc(r["detail"])}</td><td class="r num">${intc(round(r["annual"]))}</td></tr>'
             for r in gs["rows"]]
     rows.append(f'<tr class="total"><td>Total</td><td></td><td class="r num">${intc(round(sum(r["annual"] for r in gs["rows"])))}</td></tr>')
     N.gap("ghost_spend: count of scanned invoices (spec source line says “3 scanned invoices”)")
     top, hgt = 382, 318
-    return slide(7, f"""
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Spend with no practice behind it", f['basis'])}
-  {headline(f['annual']['display'], f"a year for {word(sites)} sites that never opened, and ads in a city with no practice")}
+  {headline(f['annual']['display'], f"a year for {word(sites)} sites with no patients or staff, and ads in a city with no practice")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:34px 52px">
     <table class="tbl ghost"><thead><tr><th>Cost</th><th>What it pays for</th><th class="r">Per year</th></tr></thead>
     <tbody>{''.join(rows)}</tbody></table></div>
-  <div class="under" style="top:{top + hgt + 34}px"><p class="note">{esc(smart(gs['evidence_note']))}</p></div>
+  <div class="under" style="top:{top + hgt + 34}px"><p class="note">{esc(smart(gs['evidence_note']))}</p>
+    <p class="note">Halstead: {esc(smart(gs['halstead_fy2026_note']))}</p></div>
   {source(f"{f['source']} · scanned invoices")}""")
 
 
 def s08(N, M):
-    f, cp = N("findings[5]"), N("card_processing")
+    f, cp = fid(N, "card_processing"), N("card_processing")
     procs = cp["processors"]
     total_sites = all_sites(N)
     moving = total_sites - cp["sunbit_processing_sites"]
@@ -830,7 +842,7 @@ def s08(N, M):
     chart = chart_pair(M, rows, 1680 - 104, hgt - 72, pct_keep)
     callout = (f"All {cp['sunbit_fee_sites']} sites already pay Sunbit’s platform fee. "
                f"Only {cp['sunbit_processing_sites']} process through it.")
-    return slide(8, f"""
+    return slide(2 + f["rank"], f"""
   {eyebrow(f"{f['rank']} · Card processing", f['basis'])}
   {headline(f['annual']['display'], f"a year by moving {moving} sites to the rate {cp['sunbit_processing_sites']} sites already get")}
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:36px 52px">{chart}</div>
@@ -845,7 +857,11 @@ def s09(N, M):
     labels = {}
     for it in ck["items"]:
         amt = it["amount"]["display"] + (f"–{it['amount_high']['display']}" if it.get("amount_high") else "")
-        if it["start"] == it["end"]:
+        if it["amount"].get("raw") is None:
+            labels[it["id"]] = (amt, "overdue now")
+        elif it["id"] == "credential_hold":
+            labels[it["id"]] = (amt, f"claims expire {md(it['start'])} → {md(it['end'])}")
+        elif it["start"] == it["end"]:
             labels[it["id"]] = (amt, f"by {md(it['end'])}")
         elif it.get("decay_per_day"):
             per_day = f"${intc(rhu(it['decay_per_day'], -2))}"
@@ -889,12 +905,13 @@ def s11(N, M):
     n_queue = sum(1 for t in titles if t == "Denial Queue Specialist")
     n_senior = sum(1 for t in titles if t == "Senior AR Specialist")
     rows = [
-        (f"Billing Entry Clerks <span class=\"n\">({pp['clerks']})</span>", f"Key paper routing slips from {len(cc['sites'])} sites",
-         "The keying, and the check against the clinical record", "Rebilling the backlog, then the ranked denial queue"),
+        (f"Billing Entry Clerks <span class=\"n\">({pp['clerks']})</span>",
+         f"Key paper routing slips from {len(cc['sites'])} sites, and work about {intc(pp['clerk_denials_per_year'])} denials each a year",
+         "Finding what the slips missed: a daily list of procedures done but not billed", "Keying those first, then the backlog. Their denial work stays"),
         (f"Denial Queue Specialists <span class=\"n\">({n_queue})</span>", "Rework denials oldest first", "The ordering",
          "The ranked queue: highest value, nearest deadline first"),
         (f"Senior AR Specialist <span class=\"n\">({n_senior})</span>", "Aged claims, by phone", "Nothing. It hands her the largest aged claims",
-         "Same work, plus a successor paired with her this year"),
+         "Same work. One Revenue Cycle Specialist shadows her a day a week"),
         (f"Front desk, Worthington and Dublin <span class=\"n\">({pp['eligibility_staff']})</span>",
          f"{pp['eligibility_minutes_per_patient']} minutes a patient on payer portals",
          "Eligibility checks through DentalXChange, already paid for", "Filling same-day openings from the waitlist"),
@@ -908,7 +925,7 @@ def s11(N, M):
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:34px 52px">
     <table class="tbl work" style="table-layout:fixed"><colgroup><col style="width:22%"><col style="width:23%"><col style="width:27%"><col style="width:28%"></colgroup>
     <thead><tr><th>Role</th><th>Today</th><th>The system takes</th><th>They move to</th></tr></thead><tbody>{body}</tbody></table></div>
-  <div class="under" style="top:{top + hgt + 36}px"><p class="callout">What stays with people: payer calls, appeals, coding judgment. Corporate headcount stays the same.</p></div>""")
+  <div class="under" style="top:{top + hgt + 36}px"><p class="callout">What stays with people: payer calls, appeals, coding judgment. No new hires; the freeze holds.</p></div>""")
 
 
 UNLOCK_LABELS = {  # short names for what each module unlocks (copy; ids come from plan.modules[].unlocks)
@@ -927,7 +944,7 @@ def s12(N, M):
     chart = chart_gantt(M, mods, labels, 1128 - 96, hgt - 60)
     live_last = max(m["live"] for m in mods if m.get("live"))
     live_last = __import__("datetime").date.fromisoformat(live_last).strftime("%B %-d")
-    stats = [f'<p class="big"><b>{esc(t["build_cost"]["display"])}</b> build · {pl["engineers"]} engineers, {pl["weeks"]} weeks</p>',
+    stats = [f'<p class="big"><b>{esc(t["build_cost"]["display"])}</b> build, estimated · {pl["engineers"]} engineers, {pl["weeks"]} weeks</p>',
              f'<p class="big"><b>{money(t["run_cost_monthly"]["raw"], sentence=True)}</b> a month to run</p>',
              f'<p class="big">One-time recoveries alone cover the build <b>{t["one_time_covers_build"]}×</b></p>',
              f'<p class="big">2026 cash <b>{esc(t["fy2026_total"]["display"])}</b> against {esc(t["build_cost"]["display"])} + '
@@ -975,12 +992,16 @@ def s14(N, M):
   <div class="glass slab" style="top:{top}px; height:{hgt}px; padding:32px 52px">
     <p class="c-cap t-small" style="margin:0 0 6px">Same-day openings rate</p>{bars}
     <div style="height:1px;background:var(--hairline);margin:18px 0 22px"></div><p class="chain">{chain}</p></div>
-  <div class="under" style="top:{top + hgt + 34}px"><p class="note">Fill rate has never been measured, and some filled slots only pull future visits forward. {esc(pilot_txt)}</p></div>
+  <div class="under" style="top:{top + hgt + 34}px"><p class="note">Fill rate has never been measured, and some filled slots only pull future visits forward. If managers already fill 20% of openings, the gain is about {esc(bf['incremental_if_20pct']['display'])}. {esc(pilot_txt)}</p></div>
   {source("operations-monthly.csv · appendix §6")}""")
 
 
 def s15(N, M):
-    me, dv = N("method"), N("docs_vs_data")
+    me, dv, tz = N("method"), N("docs_vs_data"), N("tieouts_summary")
+    short = {"Denied $: claims-monthly vs claim-denials": "denied dollars between the two billing files",
+             "NGD-23/24 software: ap-ledger vs vendor-spend": "NGD-23/24 software missing from vendor spend",
+             "Corporate payroll: employees x 1.21 vs P&L": "corporate payroll"}
+    tz_big = "; ".join(f"{short.get(b['label'], b['label'])} {b['diff']['display']}" for b in tz["largest"])
     rows = "".join(f'<tr><td class="who">{esc(r["who"])}</td><td>{esc(smart(r["claim"]))}</td><td>{esc(smart(r["data"]))}</td></tr>' for r in dv)
     top = 346
     return slide(15, f"""
@@ -995,8 +1016,21 @@ def s15(N, M):
   </div>
   <div class="dvd" style="top:{top}px"><h3>Where the documents disagree with the data</h3>
     <table class="tbl dvd-t" style="table-layout:fixed"><colgroup><col style="width:23%"><col style="width:36%"><col style="width:41%"></colgroup>
-    <thead><tr><th>Who</th><th>Claim</th><th>Data</th></tr></thead><tbody>{rows}</tbody></table></div>
-  <div class="cmd" style="top:{top + 486 + 44}px"><span class="lbl">Reproduce any number:</span><div class="glass glass--capsule">python -m northgate explain &lt;finding&gt;</div></div>""")
+    <thead><tr><th>Who</th><th>Claim</th><th>Data</th></tr></thead><tbody>{rows}</tbody></table>
+    <p class="note" style="margin-top:14px">P&amp;L tie-outs: {tz['breaks']} breaks in {tz['checks']} checks, the largest {esc(tz['largest'][0]['diff']['display'])} between the two billing files.</p></div>
+  <div class="cmd" style="top:{top + 486 + 84}px"><span class="lbl">Reproduce any number:</span><div class="glass glass--capsule">python -m northgate explain &lt;finding&gt;</div></div>""")
+
+
+FINDING_SLIDES = {"charge_capture": s03, "denial_priority": s04, "duplicate_plans": s05,
+                  "rebates": s06, "ghost_spend": s07, "card_processing": s08}
+
+
+def slide_order(N):
+    """Finding slides follow the system's ranks; everything else is fixed."""
+    order = {1: s01, 2: s02, 9: s09, 10: s10, 11: s11, 12: s12, 13: s13, 14: s14, 15: s15}
+    for f in N("findings"):
+        order[2 + f["rank"]] = FINDING_SLIDES[f["id"]]
+    return order
 
 
 SLIDES = {1: s01, 2: s02, 3: s03, 4: s04, 5: s06, 6: s05, 7: s07, 8: s08,
@@ -1015,8 +1049,9 @@ def write_deck(N, M, fonts, only=None):
     for f in (KIT / "fonts").glob("InstrumentSans*"):
         shutil.copy2(f, kit / "fonts" / f.name)
     (OUT / "deck.css").write_text(DECK_CSS.lstrip())
-    nums = [n for n in sorted(SLIDES) if not only or n in only]
-    body = "\n".join(SLIDES[n](N, M) for n in nums)
+    order = slide_order(N)
+    nums = [n for n in sorted(order) if not only or n in only]
+    body = "\n".join(order[n](N, M) for n in nums)
     doc = f"""<!doctype html>
 <html lang="en">
 <head>

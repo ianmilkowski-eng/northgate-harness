@@ -5,20 +5,24 @@
   "data_through_display": "Dec 31, 2025",
   "totals": {
     "run_rate": {
+      "raw": 1095369,
+      "display": "$1.10M"
+    },
+    "run_rate_upper": {
       "raw": 1330073,
       "display": "$1.33M"
     },
     "one_time": {
-      "raw": 349629,
-      "display": "$350K"
+      "raw": 318349,
+      "display": "$318K"
     },
     "fy2026_run_rate_capture": {
-      "raw": 957595,
-      "display": "$958K"
+      "raw": 885938,
+      "display": "$886K"
     },
     "fy2026_total": {
-      "raw": 1307224,
-      "display": "$1.31M"
+      "raw": 1204287,
+      "display": "$1.20M"
     },
     "build_cost": {
       "raw": 120000,
@@ -33,11 +37,11 @@
       "display": "$15K"
     },
     "fy2026_net": {
-      "raw": 1172224,
-      "display": "$1.17M"
+      "raw": 1069287,
+      "display": "$1.07M"
     },
-    "payback_weeks": 5,
-    "one_time_covers_build": 2.9,
+    "payback_weeks": 6,
+    "one_time_covers_build": 2.7,
     "upside": {
       "raw": 1937318,
       "display": "$1.94M"
@@ -55,9 +59,10 @@
       "display": "−$1.23M"
     },
     "pretax_with_run_rate": {
-      "raw": 97519.46,
-      "display": "+$98K"
-    }
+      "raw": -137184.54,
+      "display": "−$137K"
+    },
+    "pretax_gap_closed_pct": 88.9
   },
   "findings": [
     {
@@ -68,9 +73,13 @@
         "raw": 462474,
         "display": "$462K"
       },
+      "upper": {
+        "raw": 462474,
+        "display": "$462K"
+      },
       "fy2026": {
-        "raw": 385395,
-        "display": "$385K"
+        "raw": 462474,
+        "display": "$462K"
       },
       "basis": "Measured",
       "source": "procedures-monthly.csv · 96 rows"
@@ -80,36 +89,29 @@
       "rank": 2,
       "title": "Denials worked by value, not arrival",
       "annual": {
+        "raw": 203413,
+        "display": "$203K"
+      },
+      "upper": {
         "raw": 346848,
         "display": "$347K"
       },
       "fy2026": {
-        "raw": 260136,
-        "display": "$260K"
+        "raw": 152560,
+        "display": "$153K"
       },
       "basis": "Modeled",
       "source": "claim-denials.csv · 10,126 rows"
     },
     {
-      "id": "rebates",
-      "rank": 3,
-      "title": "Supply rebates never claimed",
-      "annual": {
-        "raw": 165206,
-        "display": "$165K"
-      },
-      "fy2026": {
-        "raw": 88989,
-        "display": "$89K"
-      },
-      "basis": "Contractual",
-      "source": "purchase-orders.csv · 1,860 rows"
-    },
-    {
       "id": "duplicate_plans",
-      "rank": 4,
+      "rank": 3,
       "title": "Health plans the sellers never cancelled",
       "annual": {
+        "raw": 158345,
+        "display": "$158K"
+      },
+      "upper": {
         "raw": 158345,
         "display": "$158K"
       },
@@ -122,9 +124,13 @@
     },
     {
       "id": "ghost_spend",
-      "rank": 5,
+      "rank": 4,
       "title": "Spend with no practice behind it",
       "annual": {
+        "raw": 128099,
+        "display": "$128K"
+      },
+      "upper": {
         "raw": 128099,
         "display": "$128K"
       },
@@ -136,10 +142,33 @@
       "source": "ap-ledger.csv · 132 rows"
     },
     {
+      "id": "rebates",
+      "rank": 5,
+      "title": "Supply rebates never claimed",
+      "annual": {
+        "raw": 73937,
+        "display": "$74K"
+      },
+      "upper": {
+        "raw": 165206,
+        "display": "$165K"
+      },
+      "fy2026": {
+        "raw": 47829,
+        "display": "$48K"
+      },
+      "basis": "Contractual",
+      "source": "purchase-orders.csv · 1,860 rows"
+    },
+    {
       "id": "card_processing",
       "rank": 6,
       "title": "Card fees above a rate you already have",
       "annual": {
+        "raw": 69101,
+        "display": "$69K"
+      },
+      "upper": {
         "raw": 69101,
         "display": "$69K"
       },
@@ -220,17 +249,30 @@
       "display": "$1.30M"
     },
     "writeoffs_value_first": {
+      "raw": 1038887,
+      "display": "$1.04M"
+    },
+    "writeoffs_value_first_flat": {
       "raw": 854995,
       "display": "$855K"
     },
     "billed_saved": {
-      "raw": 444677,
-      "display": "$445K"
+      "raw": 260785,
+      "display": "$261K"
     },
     "annual_net": {
+      "raw": 203413,
+      "display": "$203K"
+    },
+    "range_low": {
+      "raw": 107331,
+      "display": "$107K"
+    },
+    "range_high": {
       "raw": 346848,
       "display": "$347K"
     },
+    "effort_slope": 0.00336,
     "by_reason": [
       {
         "reason": "Missing clinical narrative",
@@ -349,15 +391,30 @@
       "display": "$0"
     },
     "steady_state": {
+      "raw": 73937,
+      "display": "$74K"
+    },
+    "floor": {
+      "raw": 73937,
+      "display": "$74K"
+    },
+    "upper": {
       "raw": 165206,
       "display": "$165K"
     },
     "fy2026": {
-      "raw": 88989,
-      "display": "$89K"
+      "raw": 47829,
+      "display": "$48K"
+    },
+    "fy2026_upper": {
+      "raw": 99079,
+      "display": "$99K"
     },
     "fy2026_rate_pct": 4.0,
-    "agreement_ends": "Oct 31, 2026"
+    "agreement_ends": "Nov 30, 2026",
+    "recommend_2026": "Patterson",
+    "schedule_a_note": "Schein pools only the locations listed on Schedule A, which is not in the packet. Without the 6 sites acquired after the agreement, all volume is $2.09M: the 4.0% tier, $83.8K a year instead of $165K.",
+    "price_parity_note": "Consolidating assumes the same item prices at either distributor. The packet has no item prices, so compare the preferred-list prices before moving volume."
   },
   "ghost_spend": {
     "rows": [
@@ -381,7 +438,8 @@
       "raw": 128099,
       "display": "$128K"
     },
-    "evidence_note": "Vector Security's September invoice for Beavercreek reports no open/close activity and says the premises may be unoccupied."
+    "evidence_note": "Vector Security's September invoice for Beavercreek reports no open/close activity and says the premises may be unoccupied.",
+    "halstead_fy2026_note": "Auto-renewed in February; notice by Dec 3, 2026 stops the next renewal."
   },
   "card_processing": {
     "processors": [
@@ -413,8 +471,8 @@
   },
   "clocks": {
     "total": {
-      "raw": 349629,
-      "display": "$350K"
+      "raw": 318349,
+      "display": "$318K"
     },
     "items": [
       {
@@ -458,12 +516,23 @@
         "id": "backlog",
         "label": "Bill procedures still inside filing limits",
         "amount": {
-          "raw": 161931,
-          "display": "$162K"
+          "raw": 130651,
+          "display": "$131K"
+        },
+        "start": "2026-03-02",
+        "end": "2026-06-29",
+        "decay_per_day": 1188
+      },
+      {
+        "id": "credential_sweep",
+        "label": "Recredential the 16 provider-payer pairs past their due date",
+        "amount": {
+          "raw": null,
+          "display": "Risk"
         },
         "start": "2026-02-02",
-        "end": "2026-06-29",
-        "decay_per_day": 1113
+        "end": "2026-02-02",
+        "days_left": 0
       }
     ]
   },
@@ -599,6 +668,11 @@
       34
     ],
     "clerks": 5,
+    "clerk_denials_per_year": 1664,
+    "clerk_recovered_total": {
+      "raw": 826631.8,
+      "display": "$827K"
+    },
     "eligibility_staff": 7,
     "eligibility_minutes_per_patient": 11
   },
@@ -607,7 +681,7 @@
       {
         "n": 0,
         "name": "Clocks",
-        "what": "File both rebate claims, rebill the held Delta claims, cancel NGD-23/24 services, give Halstead notice, end the legacy plans, move supply orders to Schein",
+        "what": "File both rebate claims, rebill the held Delta claims, recredential the 16 overdue pairs, cancel NGD-23/24 services, give Halstead notice, end the legacy plans, move supply orders to Patterson",
         "start": "2026-02-02",
         "end": "2026-02-27",
         "live": null,
@@ -633,8 +707,7 @@
         "end": "2026-03-20",
         "live": "2026-03-23",
         "unlocks": [
-          "denial_priority",
-          "credential_hold"
+          "denial_priority"
         ]
       },
       {
@@ -679,6 +752,10 @@
     "contribution": {
       "raw": 1937318,
       "display": "$1.94M"
+    },
+    "incremental_if_20pct": {
+      "raw": 968659,
+      "display": "$969K"
     },
     "recent_rate_pct": 21.7,
     "legacy_rate_pct": 10.1
@@ -725,6 +802,33 @@
       "reason": "$155K a year, but that is a retention decision, not a saving."
     }
   ],
+  "tieouts_summary": {
+    "checks": 12,
+    "breaks": 5,
+    "largest": [
+      {
+        "label": "Denied $: claims-monthly vs claim-denials",
+        "diff": {
+          "raw": 356596.24,
+          "display": "$357K"
+        }
+      },
+      {
+        "label": "NGD-23/24 software: ap-ledger vs vendor-spend",
+        "diff": {
+          "raw": 46064.09,
+          "display": "$46K"
+        }
+      },
+      {
+        "label": "Corporate payroll: employees x 1.21 vs P&L",
+        "diff": {
+          "raw": 23474,
+          "display": "$23K"
+        }
+      }
+    ]
+  },
   "method": {
     "packet_words": 259000,
     "documents": 252,
