@@ -543,11 +543,17 @@ system_sec = f"""
               'second copy of any number to drift.')}
     <div class="block sys-top">
       <div class="cmds pane">
-        <p class="plbl">Install and run, from a clone of <a class="gh" data-gh="northgate-recovery">northgate-recovery</a></p>
-        <div class="cmd-line"><span class="pr">$</span><code>pip install -r requirements.txt</code></div>
-        <div class="cmd-line"><span class="pr">$</span><code>python -m northgate</code></div>
-        <p class="cmds-note">Python 3.10 or later. pandas is the only dependency, and the run takes under two seconds.</p>
-        <p class="cmds-note sub">Tests: <code>python -m pytest -q</code><br>Also: <code>explain &lt;finding&gt;</code> · <code>tieouts</code> · <code>plan</code> · <code>triage</code></p>
+        <div class="cmds-main">
+          <p class="plbl">Install and run, from a clone of <a class="gh" data-gh="northgate-recovery">northgate-recovery</a></p>
+          <div class="cmd-line"><span class="pr">$</span><code>python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt</code></div>
+          <div class="cmd-line"><span class="pr">$</span><code>.venv/bin/python -m northgate</code></div>
+        </div>
+        <div class="cmds-side">
+          <p class="cmds-note">Python 3.10 or later. pandas is the only dependency. It installs into a local environment,
+          so it works on a clean machine, and the run takes under two seconds.</p>
+          <p class="cmds-note sub">Tests: <code>.venv/bin/pip install pytest</code>, then <code>.venv/bin/python -m pytest -q</code><br>
+          Also: <code>explain &lt;finding&gt;</code> · <code>tieouts</code> · <code>plan</code> · <code>triage</code></p>
+        </div>
       </div>
       <div class="stats4">
         <p class="pstat"><b>{N_FINDINGS}</b><span>findings computed, {N_COUNTED} of them counted</span></p>

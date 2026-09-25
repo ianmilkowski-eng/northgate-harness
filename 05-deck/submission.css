@@ -219,7 +219,10 @@ body.presenting .present-bar { display: flex; position: fixed; z-index: 201; lef
 @media (max-width: 760px) { .proof-body { padding-left: 20px; } }
 
 /* ---- system ---- */
-.sys-top { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; }
+.sys-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 44px; }
+.cmds { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 16px 44px; align-items: center; }
+.cmds-side .cmds-note:first-child { margin-top: 0; }
+.stats4 .pstat:first-child { padding-left: 0; border-left: 0; }
 .cmds { padding: 24px 26px 22px; }
 .cmd-line { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: 12px; background: rgba(255, 255, 255, .78);
   box-shadow: inset 0 0 0 1px rgba(24, 32, 46, .06); font: 500 14.5px/20px var(--mono); color: var(--ink); overflow-x: auto; white-space: nowrap; }
@@ -228,8 +231,8 @@ body.presenting .present-bar { display: flex; position: fixed; z-index: 201; lef
 .cmd-line .pr { color: var(--ink-3); user-select: none; -webkit-user-select: none; }
 .cmds-note { margin: 14px 0 0; font: 400 14px/22px var(--font-text); color: var(--ink-2); }
 .cmds-note.sub { margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 13.5px; line-height: 23px; }
-.cmds-note code { font-size: 12.5px; color: var(--ink); }
-.stats4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 0; }
+.cmds-note code { font-size: 12.5px; color: var(--ink); white-space: nowrap; }
+.stats4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 0; }
 .pstat { margin: 0; padding: 0 24px; border-left: 1px solid var(--rule); }
 .pstat b { display: block; font: 600 38px/42px var(--font-display); --ls: -.034em; font-feature-settings: "tnum" 0; }
 .pstat span { display: block; margin-top: 6px; font: 400 15px/22px var(--font-text); color: var(--ink-2); text-wrap: pretty; max-width: 26ch; }
@@ -275,7 +278,9 @@ body.presenting .present-bar { display: flex; position: fixed; z-index: 201; lef
 .sysflow p { margin: 6px 0 0; font: 400 14.5px/22px var(--font-text); color: var(--ink-2); text-wrap: pretty; }
 .sysflow p code { font-size: 12px; color: var(--ink); white-space: nowrap; }
 @media (max-width: 1060px) {
-  .sys-top { grid-template-columns: minmax(0, 1fr); }
+  .cmds { grid-template-columns: minmax(0, 1fr); }
+  .stats4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats4 .pstat:nth-child(odd) { padding-left: 0; border-left: 0; }
   .trace { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .step:nth-child(3) { border-left: 0; }
   .step:nth-child(n+3) { border-top: 1px solid var(--rule); }
